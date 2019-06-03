@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import '../styles/SignUpForm.css'
 import { connect } from 'react-redux'
-import { reduxForm, Field, formValueSelector } from 'redux-form'
-
+import { reduxForm, Field } from 'redux-form'
+import { signUp } from '../actions/userAuthenAction'
+import ErrorsMessage from '../components/ErrorsMessage'
+import {
+    getIsSignUpSelector,
+    getTokenSelector,
+    getErrorSignUpSelector
+} from '../selector/userAuthenSelector'
+import PropTypes from 'prop-types'
 
 class SignUpForm extends React.Component {
 
@@ -21,14 +28,11 @@ class SignUpForm extends React.Component {
             </div>
         )
 
-    onSubmitSignUpForm = values => {
-        console.log(values)
-    }
-
     render() {
-        const { handleSubmit, invalid } = this.props
+        const { handleSubmit, invalid, isSignUp, token, errors } = this.props
+        console.log(isSignUp)
         return (
-            <form className="SignUpForm__root" onSubmit={handleSubmit(this.onSubmitSignUpForm)} >
+            <form className="SignUpForm__root" onSubmit={handleSubmit((values) => this.props.dispatchSigUp(values))} >
                 <Field
                     name="email"
                     component={this.renderField}
@@ -59,11 +63,11 @@ class SignUpForm extends React.Component {
                     disabled={invalid}
                     type="submit"
                 >
-                    {/* {isAuthenticating ? */}
-                    <i className="fa fa-spinner fa-pulse fa-3x fa-fw SignUpForm__spinner" />
-                    Sign Up'
+                {
+                    isSignUp ? <i className="fa fa-spinner fa-pulse fa-3x fa-fw SignUpForm__spinner" /> : 'Sign Up'
+                }
                 </button>
-                {/* <ErrorMessages messages={this.props.errorMessages} /> */}
+                <ErrorsMessage errors={errors} />
             </form>
         )
     }
@@ -71,14 +75,15 @@ class SignUpForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        signUp: state.signUpReducer,
-        form: state.form,
+        isSignUp: getIsSignUpSelector(state),
+        token: getTokenSelector(state),
+        errors: getErrorSignUpSelector(state)
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+       dispatchSigUp: (user) => dispatch(signUp(user))
     }
 }
 
@@ -108,9 +113,14 @@ const validate = (values) => {
     return errors;
   }
 
-SignUpForm = reduxForm({
+export default reduxForm({
     form: 'signUpFormValidation',
     validate,
-})(SignUpForm)
+})(connect(mapStateToProps, mapDispatchToProps)(SignUpForm))
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm)
+SignUpForm.propTypes = {
+    isSignUp: PropTypes.bool,
+    token: PropTypes.string,
+    error: PropTypes.object,
+    dispatchSigUp: PropTypes.func,
+}

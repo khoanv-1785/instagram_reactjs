@@ -6,19 +6,29 @@ import SignInPage from './view/SignInPage'
 import MainLayout from './components/MainLayout'
 import PageNotFound from './components/PageNotFound'
 import SignUpPage from './view/SignUpPage';
+import Profile from './view/Profile'
+import configureStore from './store/index'
+import { Provider } from 'react-redux'
+import createHistory from 'history/createBrowserHistory'
+
+const store = configureStore()
+const history = createHistory()
 
 class App extends Component {
   render() {
     return (
-      <Router>
-        <MainLayout />
-        <Switch>
-          <Route  exaxt={true} path={HOME} component={Home} />
-          <Route  exact={true} path={LOGIN} component={SignInPage} />
-          <Route  path={REGISTER} component={SignUpPage} />
-          <Route component={PageNotFound} />
-        </Switch>
-      </Router>
+      <Provider store={store}>
+        <Router history={history}>
+          <MainLayout />
+          <Switch>
+            <Route exact={true} path={HOME} component={Home} />
+            <Route exact={true} path={LOGIN} component={SignInPage} />
+            <Route exact={true} path={REGISTER} component={SignUpPage} />
+            <Route exact={true} path={PROFILE} component={Profile} />
+            <Route component={PageNotFound} />
+          </Switch>
+        </Router>
+      </Provider>
     );
   }
 }

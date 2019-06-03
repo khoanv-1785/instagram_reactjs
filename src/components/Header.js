@@ -6,13 +6,14 @@ import { LOGIN, REGISTER, HOME } from '../constants/route'
 export default class Header extends Component {
     constructor(props) {
         super(props)
-
+    
         this.state = {
-            isAuthen: false
+             isAuthen: false
         }
     }
-
+    
     renderHeader = () => {
+        // const authenticationToken = localStorage.getItem('authenticationToken')
         const { isAuthen } = this.state
         if (isAuthen) {
             return (
