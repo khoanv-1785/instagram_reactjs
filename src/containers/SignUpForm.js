@@ -3,11 +3,13 @@ import '../styles/SignUpForm.css'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import { signUp } from '../actions/userAuthenAction'
+import { Redirect } from 'react-router-dom'
 import ErrorsMessage from '../components/ErrorsMessage'
 import {
     getIsSignUpSelector,
     getTokenSelector,
-    getErrorSignUpSelector
+    getErrorSignUpSelector,
+    getIsSuccessSignUpSelector,
 } from '../selector/userAuthenSelector'
 import PropTypes from 'prop-types'
 
@@ -29,8 +31,8 @@ class SignUpForm extends React.Component {
         )
 
     render() {
-        const { handleSubmit, invalid, isSignUp, token, errors } = this.props
-        console.log(isSignUp)
+        const { handleSubmit, invalid, isSignUp, errors, isSuccess } = this.props
+        console.log(isSuccess)
         return (
             <form className="SignUpForm__root" onSubmit={handleSubmit((values) => this.props.dispatchSigUp(values))} >
                 <Field
@@ -67,7 +69,9 @@ class SignUpForm extends React.Component {
                     isSignUp ? <i className="fa fa-spinner fa-pulse fa-3x fa-fw SignUpForm__spinner" /> : 'Sign Up'
                 }
                 </button>
-                <ErrorsMessage errors={errors} />
+                { 
+                   isSuccess? <Redirect to='/home'/> : <ErrorsMessage  errors={errors} />
+                } 
             </form>
         )
     }
@@ -77,7 +81,8 @@ const mapStateToProps = (state) => {
     return {
         isSignUp: getIsSignUpSelector(state),
         token: getTokenSelector(state),
-        errors: getErrorSignUpSelector(state)
+        errors: getErrorSignUpSelector(state),
+        isSuccess: getIsSuccessSignUpSelector(state),
     }
 }
 
@@ -121,6 +126,7 @@ export default reduxForm({
 SignUpForm.propTypes = {
     isSignUp: PropTypes.bool,
     token: PropTypes.string,
-    error: PropTypes.object,
+    errors: PropTypes.array,
     dispatchSigUp: PropTypes.func,
+    isSuccess: PropTypes.bool,
 }

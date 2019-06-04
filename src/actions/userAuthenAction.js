@@ -14,17 +14,17 @@ export const signIn = (user) => {
     }
 }
 
-export const signInSuccess = (response) => {
+export const signInSuccess = (user) => {
     return {
         type: SIGN_IN_SUCCESS,
-        response
+        user
     }
 }
 
-export const signInError = error => {
+export const signInError = errors => {
     return {
         type: SIGN_IN_ERROR,
-        error
+        errors
     }
 }
 
@@ -42,9 +42,9 @@ export const signUpSuccess = token => {
     }
 }
 
-export const signUpError = error => {
+export const signUpError = errors => {
     return {
         type: SIGN_UP_ERROR,
-        error,
+        errors,
     }
 }

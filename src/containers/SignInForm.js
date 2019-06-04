@@ -5,10 +5,14 @@ import {
     getIsSignInSelector,
     getUserSelecctor,
     getErrorSignInSelector,
+    getIsSuccessSignInSelector,
 } from '../selector/userAuthenSelector'
 import { reduxForm, Field } from 'redux-form'
 import { signIn } from '../actions/userAuthenAction'
 import PropTypes from 'prop-types'
+import ErrorsMessage from '../components/ErrorsMessage';
+import { Redirect } from 'react-router-dom'
+import { HOME } from '../constants/route'
 
 class SignInForm extends Component {
 
@@ -25,9 +29,10 @@ class SignInForm extends Component {
                     (error && <span className="SignInForm__error-text">{error}</span>)
                 }
             </div>
-    )
+        )
+
     render() {
-        const { handleSubmit, invalid } = this.props
+        const { handleSubmit, invalid, isSignIn, errors, isSuccess } = this.props
         return (
             <form className="SignInForm__root" onSubmit={handleSubmit((values) => this.props.dispatchSignIn(values))}>
                 <fieldset>
@@ -53,10 +58,14 @@ class SignInForm extends Component {
                     disabled={invalid}
                     type="submit">
                     {/* {isAuthenticating ? */}
-                    <i className="fa fa-spinner fa-pulse fa-3x fa-fw SignInForm__spinner" />
-                    Log In
+                    {
+                        isSignIn ? <i className="fa fa-spinner fa-pulse fa-3x fa-fw SignInForm__spinner" /> : 'Log In'
+                    }
                 </button>
-                {/* <ErrorMessages messages={this.props.errorMessages} /> */}
+                {/* show list errors message */}
+                {
+                    isSuccess ? <Redirect to={HOME} /> : <ErrorsMessage errors={errors} />
+                }
             </form>
         )
     }
@@ -66,7 +75,8 @@ const mapStateToProps = (state) => {
     return {
         isSignIn: getIsSignInSelector(state),
         user: getUserSelecctor(state),
-        error: getErrorSignInSelector(state),
+        errors: getErrorSignInSelector(state),
+        isSuccess: getIsSuccessSignInSelector(state),
     }
 }
 
@@ -80,9 +90,9 @@ const validate = values => {
     const errors = {}
     if (!values.email_signin) {
         errors.email_signin = 'Email is required';
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email_signin)) {
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email_signin)) {
         errors.email_signin = 'Invalid email address';
-      }
+    }
 
     if (!values.password_signin) {
         errors.password_signin = 'Password is required';
@@ -100,6 +110,7 @@ export default reduxForm({
 SignInForm.propTypes = {
     isSignIn: PropTypes.bool,
     user: PropTypes.object,
-    error: PropTypes.array,
+    errors: PropTypes.array,
     dispatchSignIn: PropTypes.func,
+    isSuccess: PropTypes.bool,
 }

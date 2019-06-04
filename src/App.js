@@ -8,20 +8,19 @@ import PageNotFound from './components/PageNotFound'
 import SignUpPage from './view/SignUpPage';
 import Profile from './view/Profile'
 import configureStore from './store/index'
+import { PrivateRouter } from './ultis/PrivateRouter'
 import { Provider } from 'react-redux'
-import createHistory from 'history/createBrowserHistory'
 
 const store = configureStore()
-const history = createHistory()
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router history={history}>
+        <Router>
           <MainLayout />
           <Switch>
-            <Route exact={true} path={HOME} component={Home} />
+            <PrivateRouter exact={true} path={HOME} component={Home} />
             <Route exact={true} path={LOGIN} component={SignInPage} />
             <Route exact={true} path={REGISTER} component={SignUpPage} />
             <Route exact={true} path={PROFILE} component={Profile} />

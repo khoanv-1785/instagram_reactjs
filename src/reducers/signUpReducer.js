@@ -7,7 +7,8 @@ import {
 const initialState = {
     isSignUp: false,
     token: '',
-    error: []
+    errors: [],
+    isSuccess: false,
 }
 const signUpReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -21,13 +22,16 @@ const signUpReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isSignUp: false,
-                token: action.token
+                token: action.token,
+                errors: [],
+                isSuccess: true,
             }
         case SIGN_UP_ERROR:
             return {
                 ...state,
                 isSignUp: false,
-                error: action.error
+                errors: action.errors,
+                token: '',
             }
         default:
             return state

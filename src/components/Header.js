@@ -1,21 +1,15 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link, NavLink } from 'react-router-dom'
 import '../styles/Header.css'
 import '../styles/Header.css'
 import { LOGIN, REGISTER, HOME } from '../constants/route'
+
 export default class Header extends Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-             isAuthen: false
-        }
-    }
-    
     renderHeader = () => {
-        // const authenticationToken = localStorage.getItem('authenticationToken')
-        const { isAuthen } = this.state
-        if (isAuthen) {
+        const { isSuccessSignIn, isSuccessSignUp } = this.props
+        const authenticationToken = localStorage.getItem('authenticationToken')
+        if (isSuccessSignIn || isSuccessSignUp || authenticationToken ) {
             return (
                 <ul className="Header__nav-group">
                     <li className="Header__nav-link">
@@ -37,7 +31,6 @@ export default class Header extends Component {
                         </NavLink>
                     </li>
                 </ul>
-
             )
         } else {
             return (
@@ -73,4 +66,9 @@ export default class Header extends Component {
             </header>
         )
     }
+}
+
+Header.propTypes = {
+    isSuccessSignIn: PropTypes.bool,
+    isSuccessSignUp: PropTypes.bool
 }
