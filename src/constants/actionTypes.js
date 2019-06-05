@@ -12,3 +12,8 @@ export const SIGN_UP_ERROR = 'SIGN_UP_ERROR'
 export const FETCH_POSTS = 'FETCH_POST'
 export const FETCH_POSTS_SUCCESS = 'FETCH_POST_SUCCESS'
 export const FETCH_POSTS_ERROR = 'FETCH_POST_ERROR'
+
+// add comment 
+export const ADD_COMMENT = 'ADD_COMMENT'
+export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS'
+export const ADD_COMMENT_ERROR = 'ADD_COMMENT_ERROR'

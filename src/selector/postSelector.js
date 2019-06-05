@@ -1,6 +1,9 @@
 import { createSelector } from 'reselect'
 
-const postGlobalReducer = state => state.postReducer
+const postGlobalState = state => state.postReducer
 
-//post
-export const getIsFetchingSelector = createSelector(postGlobalReducer, postReducer => postReducer.isFetching)
+export const getIsFetchingSelector = createSelector(postGlobalState, postReducer => postReducer.isFetching)
+export const getCurrentPageSelector = createSelector(postGlobalState, postReducer => postReducer.currentPage)
+export const getNextPageSelector = createSelector(postGlobalState, postReducer => postReducer.nextPage)
+export const getPostsSelector = createSelector(postGlobalState, postReducer => postReducer.posts)
+export const getTotalPagesSelector = createSelector(postGlobalState, postReducer => postReducer.totalPages)

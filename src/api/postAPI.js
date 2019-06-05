@@ -8,6 +8,10 @@ const intance = axios.create({
     }
 })
 
-export const fetchPostsAPI = () => {
-    return intance.get('/posts')
+export const fetchPostsAPI = (pageNumber) => {
+    return intance.get(`/posts?page=${pageNumber}`)
+}
+
+export const addCommentAPI = (postId, commentBody) => {
+    return intance.post(`/posts/${postId}/comments`, {body: commentBody})
 }

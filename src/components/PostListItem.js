@@ -4,30 +4,41 @@ import { Link } from 'react-router-dom'
 import CommentList from './CommentList';
 import LikeButton from './LikeButton';
 import CommentBox from './CommentBox';
+import defaultAvatar from '../images/default-avatar.png'
+import momment from 'moment'
+import PropTypes from 'prop-types'
 
 export default class PostListItem extends Component {
+
+    handleAddComment = (postId, commentBody) => {
+        this.props.handleAddComment(postId, commentBody)
+    }
+
     render() {
+        const { id, photoUrl, caption, createdAt, userId, address, placeId, likesCount, user: { username, avatarUrl }, comments } = this.props.post
         return (
             <article className="GalleryItem__root">
                 <div className="GalleryItem-header">
                     <div className="GalleryItem-header__avatar-container">
                         <img
-                            src="https://graph.facebook.com/10156350578431313/picture?type=large"
+                            src={avatarUrl ? avatarUrl : defaultAvatar}
                             className="GalleryItem-header__avatar-img"
-                            alt="alt of image"
+                            alt={`${username} profile`}
                         />
                     </div>
                     <div className="GalleryItem-header__metadata-container">
                         <div className="GalleryItem-header__username">
-                            <Link to="/">username</Link>
+                            <Link to={`/${username}`} >{username}</Link>
                         </div>
-                        {/* {address ?
-                            (<div className="GalleryItem-header__address">
-                                <Link to={`/explore/locations/${placeId}`}>{address}</Link>
-                            </div>) : null} */}
+                        {
+                            address ?
+                                (<div className="GalleryItem-header__address">
+                                    <Link to={`/explore/locations/${placeId}`}>{address}</Link>
+                                </div>) : null
+                        }
                     </div>
                     <div className="GalleryItem-header__timestamp">
-                        temp time
+                        {momment(createdAt).fromNow()}
                     </div>
 
                 </div>
@@ -36,21 +47,26 @@ export default class PostListItem extends Component {
                     className="GalleryItem__body"
                 // style={this.getFilterStyle()}
                 >
-                    <img src="https://hackafy-app.s3.amazonaws.com/uploads/post/photo/685/sun__.jpg"
+                    {caption}
+                    <img src={photoUrl}
                         role="presentation"
+                        alt=" "
                     />
                     {/* {this.renderHeartAnimation()} */}
                 </div>
                 <div className="GalleryItem__footer">
                     {/* {this.renderLikes()}  */}
                     <div className="GalleryItem__likes">
-                        99 Like
+                        {likesCount} likes
                     </div>
 
                     {/* {this.renderCaption()} */}
                     {/* {this.renderViewMoreComments()} */}
                     {/* {this.renderComments()} */}
-                    <CommentList />
+                    <CommentList 
+                        comments={comments}
+                        userId={userId}
+                     />
                     <div className="GalleryItem__action-box">
                         <div className="GalleryItem__like-button">
                             {/*  like button */}
@@ -63,7 +79,10 @@ export default class PostListItem extends Component {
                         </div>
                         <div className="GalleryItem__comment-box">
                             {/* list comment */}
-                            <CommentBox />
+                            <CommentBox
+                                postId={id}
+                                onSubmitCommentBox={this.handleAddComment}
+                             />
                             {/* <CommentBox onSubmit={this.props.onCommentSubmit} /> */}
                         </div>
                     </div>
@@ -71,4 +90,8 @@ export default class PostListItem extends Component {
             </article>
         )
     }
+}
+
+PostListItem.propTypes = {
+    handleAddComment: PropTypes.func
 }

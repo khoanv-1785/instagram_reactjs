@@ -15,6 +15,7 @@ function* workSignUpSaga(action) {
             // handle success of axios.
             const { authenticationToken } = result.data.user
             localStorage.setItem('authenticationToken', authenticationToken)
+            localStorage.setItem('currentUser', JSON.stringify(result.data.user))
             yield put(signUpSuccess(authenticationToken))
         } else {
             // handle error of axios
@@ -42,6 +43,7 @@ function* wordSignInSaga(action) {
             // handle call axios success
             const { user } = result.data
             localStorage.setItem('authenticationToken', user.authenticationToken)
+            localStorage.setItem('currentUser', JSON.stringify(result.data.user))
             yield put(signInSuccess(user))
         } else {
             // handle call axios error

@@ -9,7 +9,7 @@ const initialState = {
     currentPage: 0,
     nextPage: 0,
     prevPage: 0,
-    totalPage: 0,
+    totalPages: 0,
     posts: [],
     errors: [],
 }
@@ -21,14 +21,20 @@ const postReducer = (state = initialState, action) => {
                 isFetching: true,
             }
         case FETCH_POSTS_SUCCESS:
+            state.posts = state.posts.concat(action.data.posts)
             return {
                 ...state,
                 isFetching: false,
+                currentPage: action.data.currentPage,
+                nextPage: action.data.nextPage,
+                totalPages: action.data.totalPages,
+
             }
         case FETCH_POSTS_ERROR:
             return {
                 ...state,
                 isFetching: false,
+                errors: action.errors,
             }
         default:
             return state
