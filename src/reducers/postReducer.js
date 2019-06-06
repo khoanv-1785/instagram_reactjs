@@ -2,7 +2,9 @@ import {
     FETCH_POSTS,
     FETCH_POSTS_SUCCESS,
     FETCH_POSTS_ERROR,
-
+    ADD_COMMENT_SUCCESS,
+    ADD_COMMENT,
+    LOAD_MORE_COMMENT_SUCCESS,
 } from '../constants/actionTypes'
 const initialState = {
     isFetching: false,
@@ -36,6 +38,37 @@ const postReducer = (state = initialState, action) => {
                 isFetching: false,
                 errors: action.errors,
             }
+        case ADD_COMMENT_SUCCESS:
+            return {
+                ...state,
+                posts: state.posts.map(post => {
+                    if (post.id === action.postId) {
+                        return {
+                            ...post,
+                            comments: [
+                                ...post.comments,
+                                action.comment
+                            ]
+                        }
+                    } else {
+                        return post
+                    }
+                })
+            }
+        case LOAD_MORE_COMMENT_SUCCESS:
+                return {
+                    ...state,
+                    posts: state.posts.map(post => {
+                        if (post.id === action.postId) {
+                            return {
+                                ...post,
+                                comments: post.comments.concat(action.comments)
+                            }
+                        } else {
+                            return post
+                        }
+                    })
+                }
         default:
             return state
     }

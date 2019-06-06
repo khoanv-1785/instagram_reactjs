@@ -15,3 +15,7 @@ export const fetchPostsAPI = (pageNumber) => {
 export const addCommentAPI = (postId, commentBody) => {
     return intance.post(`/posts/${postId}/comments`, {body: commentBody})
 }
+
+export const loadMoreCommentAPI = (postId, currentPage) => {
+    return intance.get(`/posts/${postId}/comments?page=${currentPage + 1}`)
+}

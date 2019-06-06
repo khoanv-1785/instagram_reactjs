@@ -3,35 +3,50 @@ import '../styles/Home.css'
 import Spinner from '../components/Spinner';
 import PostList from '../containers/PostList';
 import { connect } from 'react-redux'
+import ConfirmModal from '../components/ConfirmModal';
 
 export default class Home extends Component {
-    // componentDidMount() {
-    //     document.addEventListener('scroll', this.handleScroll)
-    // }
+//    constructor(props) {
+//        super(props)
+   
+//        this.state = {
+//             isOpenConfirmModal: false
+//        }
+//    }
 
-    // componentWillMount() {
-    //     document.removeEventListener('scroll', this.handleScroll)
-    // }
+//    onOpenConfirmModal = () => {
+//        this.setState({
+//            isOpenConfirmModal: true
+//        })
+//    }
 
-    // handleScroll = () => {
-    //     const totalHeight = document.body.scrollHeight;
-    //     const innerHeight = window.innerHeight;
-    //     const scrollY = window.scrollY
-    //     console.log(scrollY + innerHeight, totalHeight)
-    //     if (scrollY + innerHeight >= totalHeight) {
-    //         console.log('last page')
-    //     } else { 
-    //         console.log('not')
-    //     }
-    // }
+//    handleClickConfirm = () => {
+//        console.log('confirm')
+//    }
 
+//    handleRequestConfirm = () => {
+//        this.setState({
+//            isOpenConfirmModal: false,
+//        })
+//    }
+
+   
     render() {
         return (
             <div className="Home__root container">
-                <PostList />
+                 <PostList />
                 {/* <div className="PhotoGallery__spinner-container">
                     <Spinner />
                 </div> */}
+                {/* <button onClick={this.onOpenConfirmModal}>test confifrm modal</button>
+                <ConfirmModal 
+                    isOpen={isOpenConfirmModal}
+                    onRequestClose={this.handleRequestConfirm}
+                    onClickConfirm={this.handleClickConfirm}
+                    confirmMessage="Delete Comment"
+                    cancelMessage="cancel"
+
+                /> */}
             </div>
         )
     }

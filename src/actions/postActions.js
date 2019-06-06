@@ -5,6 +5,8 @@ import {
     ADD_COMMENT,
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_ERROR,
+    LOAD_MORE_COMMENT,
+    LOAD_MORE_COMMENT_SUCCESS,
    
 } from '../constants/actionTypes'
 
@@ -35,5 +37,30 @@ export const addComment = (postId, commentBody) => {
         type: ADD_COMMENT,
         postId,
         commentBody,
+    }
+}
+
+export const addCommentSuccess = (postId, comment)=> {
+    return {
+        type: ADD_COMMENT_SUCCESS,
+        postId,
+        comment,
+    }
+}
+
+// load more comment
+export const loadMoreComment = (postId, currentPage) => {
+    return {
+        type: LOAD_MORE_COMMENT,
+        postId,
+        currentPage,
+    }
+}
+
+export const loadMoreCommentSuccess = (postId, comments) => {
+    return {
+        type: LOAD_MORE_COMMENT_SUCCESS,
+        postId,
+        comments,
     }
 }

@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import '../styles/PhotoGallery.css'
 import PostListItem from '../components/PostListItem';
-import { fetchPosts, addComment } from '../actions/postActions'
+import { 
+    fetchPosts, 
+    addComment,
+    loadMoreComment,
+} from '../actions/postActions'
 import Spinner from '../components/Spinner'
 import {
     getIsFetchingSelector,
@@ -43,6 +48,10 @@ class PostList extends Component {
         this.props.dispatchAddComment(postId, commentBody)
     }
 
+    loadMoreComment = (postId, currentPageComment) => {
+        this.props.dispatchLoadMoreComment(postId, currentPageComment)
+    }
+
     render() {
         const { posts, isFetching } = this.props
         return (
@@ -55,6 +64,7 @@ class PostList extends Component {
                                     key={post.id}
                                     post={post}
                                     handleAddComment={this.onAddComment}
+                                    handleLoadMoreComment={this.loadMoreComment}
                                 />
                             )
                         })
@@ -85,6 +95,13 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatchFetchPosts: (pageNumber) => dispatch(fetchPosts(pageNumber)),
         dispatchAddComment: (postId, commentBody) => dispatch(addComment(postId, commentBody)),
+        dispatchLoadMoreComment: (postId, currentPageComnent) => dispatch(loadMoreComment(postId, currentPageComnent)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostList)
+PostList.propTypes = {
+    isFetching: PropTypes.bool,
+    dispatchFetchPosts: PropTypes.func.isRequired,
+    dispatchAddComment: PropTypes.func.isRequired,
+
+}

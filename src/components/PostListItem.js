@@ -13,9 +13,30 @@ export default class PostListItem extends Component {
     handleAddComment = (postId, commentBody) => {
         this.props.handleAddComment(postId, commentBody)
     }
+    
+    handleLoadMoreComment = currentPage => {
+        const postId = this.props.post.id
+        this.props.handleLoadMoreComment(postId, currentPage)
+    }
 
     render() {
-        const { id, photoUrl, caption, createdAt, userId, address, placeId, likesCount, user: { username, avatarUrl }, comments } = this.props.post
+        const { 
+            id, 
+            photoUrl, 
+            caption, 
+            createdAt, 
+            userId, 
+            address, 
+            placeId, 
+            likesCount,
+            commentPagination,
+            user: { 
+                username,
+                avatarUrl 
+            }, 
+            comments 
+        } = this.props.post
+
         return (
             <article className="GalleryItem__root">
                 <div className="GalleryItem-header">
@@ -63,9 +84,11 @@ export default class PostListItem extends Component {
                     {/* {this.renderCaption()} */}
                     {/* {this.renderViewMoreComments()} */}
                     {/* {this.renderComments()} */}
-                    <CommentList 
+                    <CommentList
+                        postId={id} 
                         comments={comments}
-                        userId={userId}
+                        commentPagination={commentPagination}
+                        onLoadMoreComment={this.handleLoadMoreComment}
                      />
                     <div className="GalleryItem__action-box">
                         <div className="GalleryItem__like-button">
@@ -93,5 +116,6 @@ export default class PostListItem extends Component {
 }
 
 PostListItem.propTypes = {
-    handleAddComment: PropTypes.func
+    handleAddComment: PropTypes.func.isRequired,
+    handleLoadMoreComment: PropTypes.func.isRequired,
 }

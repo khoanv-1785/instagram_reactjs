@@ -2,13 +2,15 @@ import { call, put, takeLatest, all, select } from 'redux-saga/effects'
 import {
     FETCH_POSTS,
     ADD_COMMENT,
+    LOAD_MORE_COMMENT,
 } from '../constants/actionTypes'
 import {
     fetchPostsSuccess,
     fetchPostsError,
-    fetchPosts,
+    addCommentSuccess,
+    loadMoreCommentSuccess,
 } from '../actions/postActions'
-import { fetchPostsAPI, addCommentAPI } from '../api/postAPI'
+import { fetchPostsAPI, addCommentAPI, loadMoreCommentAPI } from '../api/postAPI'
 
 function* workFetchPostsSaga(action) {
     try {
@@ -29,6 +31,7 @@ function* watchFetchPostsSaga() {
 function* workAddCommentSaga(action) {
    try {
     const response = yield call(addCommentAPI, action.postId, action.commentBody)
+    yield put(addCommentSuccess(action.postId, response.data.comment))
    } catch(err) {
        console.log(err)
    }
@@ -38,7 +41,22 @@ function* watchAddComment() {
     yield takeLatest(ADD_COMMENT, workAddCommentSaga)
 }
 
+function* workLoadMoreCommentSaga(action) {
+    try {
+        const { postId, currentPage } = action
+        const response = yield call(loadMoreCommentAPI, postId, currentPage)
+        yield put(loadMoreCommentSuccess(postId, response.data.comments))
+    } catch(err) {
+        // hadle error
+    }
+}
+
+function* watchLoadMoreCommentSaga() {
+    yield takeLatest(LOAD_MORE_COMMENT, workLoadMoreCommentSaga)
+}
+
 export {
     watchFetchPostsSaga,
-    watchAddComment
+    watchAddComment,
+    watchLoadMoreCommentSaga,
 }

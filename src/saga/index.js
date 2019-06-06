@@ -1,5 +1,9 @@
 import { watchSignInSaga, watchSignUpSaga } from './userAuthenSaga'
-import { watchFetchPostsSaga, watchAddComment } from './postSaga'
+import { 
+	watchFetchPostsSaga, 
+	watchAddComment,
+	watchLoadMoreCommentSaga, 
+} from './postSaga'
 import { all } from 'redux-saga/effects';
 
 export default function * rootSaga () {
@@ -8,6 +12,7 @@ export default function * rootSaga () {
 		watchSignUpSaga(),
 		watchFetchPostsSaga(),
 		watchAddComment(),
+		watchLoadMoreCommentSaga()
 	])
 }
 
