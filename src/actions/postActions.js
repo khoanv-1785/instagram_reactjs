@@ -4,10 +4,13 @@ import {
     FETCH_POSTS_ERROR,
     ADD_COMMENT,
     ADD_COMMENT_SUCCESS,
-    ADD_COMMENT_ERROR,
     LOAD_MORE_COMMENT,
     LOAD_MORE_COMMENT_SUCCESS,
-   
+    DELETE_COMMENT,
+    DELETE_COMMENT_SUCCESS,
+    GET_POSTS_BY_USERNAME,
+    GET_POSTS_BY_USERNAME_SUCCESS,
+    GET_POSTS_BY_USERNAME_ERROR,
 } from '../constants/actionTypes'
 
 export const fetchPosts = (pageNumber) => {
@@ -62,5 +65,37 @@ export const loadMoreCommentSuccess = (postId, comments) => {
         type: LOAD_MORE_COMMENT_SUCCESS,
         postId,
         comments,
+    }
+}
+
+// delete comment 
+export const deleteComment = (postId, commentId) => {
+    return {
+        type: DELETE_COMMENT,
+        postId,
+        commentId,
+    }
+}
+
+export const deleteCommentSuccess = (postId, commentId) => {
+    return {
+        type: DELETE_COMMENT_SUCCESS,
+        postId,
+        commentId,
+    }
+}
+
+export const getPostsByUsername = (username, pageNumber) => {
+    return {
+        type: GET_POSTS_BY_USERNAME,
+        username,
+        pageNumber,
+    }
+}
+
+export const getPostsByUsernameSuccess = posts => {
+    return {
+        type: GET_POSTS_BY_USERNAME_SUCCESS,
+        posts,
     }
 }

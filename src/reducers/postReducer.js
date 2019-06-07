@@ -5,6 +5,7 @@ import {
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT,
     LOAD_MORE_COMMENT_SUCCESS,
+    DELETE_COMMENT_SUCCESS,
 } from '../constants/actionTypes'
 const initialState = {
     isFetching: false,
@@ -56,19 +57,34 @@ const postReducer = (state = initialState, action) => {
                 })
             }
         case LOAD_MORE_COMMENT_SUCCESS:
-                return {
-                    ...state,
-                    posts: state.posts.map(post => {
-                        if (post.id === action.postId) {
-                            return {
-                                ...post,
-                                comments: post.comments.concat(action.comments)
-                            }
-                        } else {
-                            return post
+            return {
+                ...state,
+                posts: state.posts.map(post => {
+                    if (post.id === action.postId) {
+                        return {
+                            ...post,
+                            comments: post.comments.concat(action.comments)
                         }
-                    })
-                }
+                    } else {
+                        return post
+                    }
+                })
+            }
+        case DELETE_COMMENT_SUCCESS:
+            return {
+                ...state,
+                posts: state.posts.map(post => {
+                    if (post.id === action.postId) {
+                        return {
+                            ...post,
+                            comments: post.comments.filter(comment => comment.id !== action.commentId)
+                        }
+                    } else {
+                        return post
+                    }
+                })
+
+            }
         default:
             return state
     }

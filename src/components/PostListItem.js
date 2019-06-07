@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../styles/GalleryItem.css'
 import { Link } from 'react-router-dom'
-import CommentList from './CommentList';
+import CommentList from '../containers/CommentList';
 import LikeButton from './LikeButton';
 import CommentBox from './CommentBox';
 import defaultAvatar from '../images/default-avatar.png'
@@ -12,11 +12,6 @@ export default class PostListItem extends Component {
 
     handleAddComment = (postId, commentBody) => {
         this.props.handleAddComment(postId, commentBody)
-    }
-    
-    handleLoadMoreComment = currentPage => {
-        const postId = this.props.post.id
-        this.props.handleLoadMoreComment(postId, currentPage)
     }
 
     render() {
@@ -88,7 +83,6 @@ export default class PostListItem extends Component {
                         postId={id} 
                         comments={comments}
                         commentPagination={commentPagination}
-                        onLoadMoreComment={this.handleLoadMoreComment}
                      />
                     <div className="GalleryItem__action-box">
                         <div className="GalleryItem__like-button">
@@ -117,5 +111,4 @@ export default class PostListItem extends Component {
 
 PostListItem.propTypes = {
     handleAddComment: PropTypes.func.isRequired,
-    handleLoadMoreComment: PropTypes.func.isRequired,
 }

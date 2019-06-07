@@ -3,14 +3,23 @@ import {
     FETCH_POSTS,
     ADD_COMMENT,
     LOAD_MORE_COMMENT,
+    DELETE_COMMENT,
+    GET_POSTS_BY_USERNAME,
 } from '../constants/actionTypes'
 import {
     fetchPostsSuccess,
     fetchPostsError,
     addCommentSuccess,
     loadMoreCommentSuccess,
+    deleteCommentSuccess,
 } from '../actions/postActions'
-import { fetchPostsAPI, addCommentAPI, loadMoreCommentAPI } from '../api/postAPI'
+import { 
+    fetchPostsAPI,
+    addCommentAPI,
+    loadMoreCommentAPI ,
+    deleteCommentAPI,
+    getPostsByUsernameAPI,
+} from '../api/postAPI'
 
 function* workFetchPostsSaga(action) {
     try {
@@ -55,8 +64,37 @@ function* watchLoadMoreCommentSaga() {
     yield takeLatest(LOAD_MORE_COMMENT, workLoadMoreCommentSaga)
 }
 
+//delete comment by id
+function* workDeleteCommentSaga(action) {
+    try {
+        const { postId, commentId } = action
+        const response = yield call(deleteCommentAPI, postId, commentId)
+        yield put(deleteCommentSuccess(postId, commentId))
+    } catch(err) {
+        // handle error
+    }
+}
+
+function* watchDeleteCommentSaga() {
+    yield takeLatest(DELETE_COMMENT, workDeleteCommentSaga)
+}
+
+function* workGetPostsByUsernameSaga(action) {
+    try {
+        const response = yield call (getPostsByUsernameAPI, action.username, action.pageNumber)
+        console.log(response)
+    } catch(err) {
+        // handle error
+    }
+}
+
+function* watchGetPostsByUsernameSaga() {
+    yield takeLatest(GET_POSTS_BY_USERNAME, workGetPostsByUsernameSaga)
+}
 export {
     watchFetchPostsSaga,
     watchAddComment,
     watchLoadMoreCommentSaga,
+    watchDeleteCommentSaga,
+    watchGetPostsByUsernameSaga,
 }

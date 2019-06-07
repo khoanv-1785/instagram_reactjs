@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { HOME, LOGIN, REGISTER, PROFILE } from './constants/route'
+import {
+  HOME,
+  LOGIN,
+  REGISTER,
+  POST_LIST_OF_USER,
+} from './constants/route'
 import Home from './view/Home'
 import SignInPage from './view/SignInPage'
 import MainLayout from './components/MainLayout'
 import PageNotFound from './components/PageNotFound'
 import SignUpPage from './view/SignUpPage';
-import Profile from './view/Profile'
+import PostListOfUser from './view/PostListOfUser'
 import configureStore from './store/index'
 import { PrivateRouter } from './ultis/PrivateRouter'
 import { Provider } from 'react-redux'
@@ -23,7 +28,7 @@ class App extends Component {
             <PrivateRouter exact={true} path={HOME} component={Home} />
             <Route exact={true} path={LOGIN} component={SignInPage} />
             <Route exact={true} path={REGISTER} component={SignUpPage} />
-            <Route exact={true} path={PROFILE} component={Profile} />
+            <Route exact={true} path={POST_LIST_OF_USER} component={PostListOfUser} />
             <Route component={PageNotFound} />
           </Switch>
         </Router>

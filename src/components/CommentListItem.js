@@ -26,7 +26,7 @@ export default class CommentListItem extends Component {
     }
 
     handleDeleComment = (id) => {
-       this.props.handleDeleComment(id)
+       this.props.handleDeleteComment(id)
        this.setState({
            isOpenConfirmModal: false
        })

@@ -19,3 +19,11 @@ export const addCommentAPI = (postId, commentBody) => {
 export const loadMoreCommentAPI = (postId, currentPage) => {
     return intance.get(`/posts/${postId}/comments?page=${currentPage + 1}`)
 }
+
+export const deleteCommentAPI = (postId, commentId) => {
+    return intance.delete(`/posts/${postId}/comments/${commentId}`)
+}
+
+export const getPostsByUsernameAPI = (username, pageNumber) => {
+    return intance.get(`/users/${username}/posts?page=${pageNumber}`)
+}
