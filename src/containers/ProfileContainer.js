@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getPostsByUsername } from '../actions/postActions'
-class PostListOfUser extends Component {
+class Profile extends Component {
 
     componentDidMount() {
         const { username } = this.props.match.params
@@ -28,4 +28,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostListOfUser)
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
