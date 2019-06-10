@@ -92,6 +92,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostList)
+
 PostList.propTypes = {
     isFetching: PropTypes.bool,
     dispatchFetchPosts: PropTypes.func.isRequired,

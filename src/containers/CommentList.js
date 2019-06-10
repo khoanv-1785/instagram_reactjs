@@ -91,7 +91,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         dispatchLoadMoreComment:(postId, currentPage) => dispatch(loadMoreComment(postId, currentPage)),
         dispatchDeleteComment: (postId, commentId) => dispatch(deleteComment(postId, commentId)),

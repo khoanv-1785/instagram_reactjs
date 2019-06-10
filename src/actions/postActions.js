@@ -8,9 +8,6 @@ import {
     LOAD_MORE_COMMENT_SUCCESS,
     DELETE_COMMENT,
     DELETE_COMMENT_SUCCESS,
-    GET_POSTS_BY_USERNAME,
-    GET_POSTS_BY_USERNAME_SUCCESS,
-    GET_POSTS_BY_USERNAME_ERROR,
 } from '../constants/actionTypes'
 
 export const fetchPosts = (pageNumber) => {
@@ -82,20 +79,5 @@ export const deleteCommentSuccess = (postId, commentId) => {
         type: DELETE_COMMENT_SUCCESS,
         postId,
         commentId,
-    }
-}
-
-export const getPostsByUsername = (username, pageNumber) => {
-    return {
-        type: GET_POSTS_BY_USERNAME,
-        username,
-        pageNumber,
-    }
-}
-
-export const getPostsByUsernameSuccess = posts => {
-    return {
-        type: GET_POSTS_BY_USERNAME_SUCCESS,
-        posts,
     }
 }

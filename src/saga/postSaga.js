@@ -1,4 +1,4 @@
-import { call, put, takeLatest, all, select } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import {
     FETCH_POSTS,
     ADD_COMMENT,
@@ -13,6 +13,7 @@ import {
     loadMoreCommentSuccess,
     deleteCommentSuccess,
 } from '../actions/postActions'
+import { getPostsByUsernameSuccess } from '../actions/profileActions'
 import { 
     fetchPostsAPI,
     addCommentAPI,
@@ -82,7 +83,7 @@ function* watchDeleteCommentSaga() {
 function* workGetPostsByUsernameSaga(action) {
     try {
         const response = yield call (getPostsByUsernameAPI, action.username, action.pageNumber)
-        console.log(response)
+        yield put(getPostsByUsernameSuccess(response.data))
     } catch(err) {
         // handle error
     }

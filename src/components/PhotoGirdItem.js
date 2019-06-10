@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import '../styles/PhotoThumbnailItem.css'
+import PropTypes from 'prop-types'
 
 export default class PhotoGirdItem extends Component {
 
     _getStyleObject() {
-
         return {
             backgroundImage: `url(${this.props.avatarUrl})`,
         };
@@ -30,4 +30,8 @@ export default class PhotoGirdItem extends Component {
         )
     }
 }
-
+PhotoGirdItem.propTypes = {
+    avatarUrl: PropTypes.string.isRequired,
+    likesCount: PropTypes.number.isRequired,
+    commentsCount: PropTypes.number.isRequired,
+}
