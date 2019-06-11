@@ -11,3 +11,7 @@ const intance = axios.create({
 export const getUserPublicProfileAPI = username => {
     return intance.get(`/users/${username}/public_profile`)
 }
+
+export const getMorePostsByUsernameAPI = (username, currentPage) => {
+    return intance.get(`/users/${username}/posts?page=${currentPage + 1}`)
+}

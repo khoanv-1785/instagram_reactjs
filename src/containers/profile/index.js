@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { 
     getPostsByUsername,
     getUserPublicProfile,
+    getMorePostsByUsername,
 } from '../../actions/profileActions'
 import {
     getIsFetchingProfileSelector,
@@ -21,6 +22,25 @@ class ProfilePage extends Component {
         const { username } = this.props
         this.props.dispatchGetUserPublicProfile(username)
         this.props.dispatchGetPostsByUsername(username, 1)
+        document.addEventListener('scroll', this.handleScrollFetchMorePostsOfUser)
+    }
+
+    componentWillMount() {
+       document.removeEventListener('scroll', this.handleScrollFetchMorePostsOfUser)
+    }
+
+    handleScrollFetchMorePostsOfUser = () => {
+        const totalHeight = document.body.scrollHeight
+        const innerHeight = window.innerHeight
+        const scrollY = window.scrollY
+        const { currentPage, nextPage } = this.props.profilePagination
+        const { username } = this.props
+        if (innerHeight + scrollY >= totalHeight) {
+            if (nextPage !== null) {
+                console.log('i am here')
+                this.props.dispatchGetMorePostsByUsername(username, currentPage)
+            }
+        }
     }
 
     render() {
@@ -60,6 +80,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatchGetPostsByUsername: (username, pageNumber) => dispatch(getPostsByUsername(username, pageNumber)),
         dispatchGetUserPublicProfile: username => dispatch(getUserPublicProfile(username)),
+        dispatchGetMorePostsByUsername: (username, currentPage) => dispatch(getMorePostsByUsername(username, currentPage)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)
@@ -70,4 +91,7 @@ ProfilePage.propTypes = {
     posts: PropTypes.array.isRequired,
     profilePagination: PropTypes.object.isRequired,
     publicProfile: PropTypes.object.isRequired,
+    dispatchGetPostsByUsername: PropTypes.func.isRequired,
+    dispatchGetUserPublicProfile: PropTypes.func.isRequired,
+    dispatchGetMorePostsByUsername: PropTypes.func.isRequired,
 }
