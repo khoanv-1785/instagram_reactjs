@@ -3,15 +3,16 @@ import '../styles/PhotoThumbnailItem.css'
 import PropTypes from 'prop-types'
 
 export default class PhotoGirdItem extends Component {
-
     _getStyleObject() {
         return {
-            backgroundImage: `url(${this.props.avatarUrl})`,
+            backgroundImage: `url(${this.props.post.photoUrl})`,
         };
     }
     render() {
+        const { onClick, post } = this.props
+        const { likesCount, commentsCount } = post
         return (
-            <div className="PhotoThumbnailItem__root">
+            <div className="PhotoThumbnailItem__root" onClick={() => onClick(post)}>
                 <div
                     style={this._getStyleObject()}
                     className="Profile__photo-image"
@@ -19,10 +20,10 @@ export default class PhotoGirdItem extends Component {
                 <div className="PhotoThumbnailItem__overlay">
                     <div className="PhotoThumbnailItem__overlay-icons">
                         <div className="PhotoThumbnailItem__likes-count">
-                            <i className="fa fa-heart" /> <span className="PhotoThumbnailItem__count"></span>{this.props.likesCount}
+                            <i className="fa fa-heart" /> <span className="PhotoThumbnailItem__count"></span>{likesCount}
                         </div>
                         <div className="PhotoThumbnailItem__comments-count">
-                            <i className="fa fa-comment" /> <span className="PhotoThumbnailItem__count">{this.props.commentsCount}</span>
+                            <i className="fa fa-comment" /> <span className="PhotoThumbnailItem__count">{commentsCount}</span>
                         </div>
                     </div>
                 </div>
@@ -31,7 +32,6 @@ export default class PhotoGirdItem extends Component {
     }
 }
 PhotoGirdItem.propTypes = {
-    avatarUrl: PropTypes.string.isRequired,
-    likesCount: PropTypes.number.isRequired,
-    commentsCount: PropTypes.number.isRequired,
+    post: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired,
 }

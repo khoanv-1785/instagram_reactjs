@@ -15,6 +15,7 @@ import SignUpPage from './view/SignUpPage';
 import configureStore from './store/index'
 import { PrivateRouter } from './ultis/PrivateRouter'
 import { Provider } from 'react-redux'
+import PostSlide from './components/PostSlide';
 
 const store = configureStore()
 
@@ -28,6 +29,7 @@ class App extends Component {
             <PrivateRouter exact={true} path={HOME} component={Home} />
             <Route exact={true} path={LOGIN} component={SignInPage} />
             <Route exact={true} path={REGISTER} component={SignUpPage} />
+            <Route exact={true} path="/test" component={PostSlide} />
             <PrivateRouter exact path={PROFILE} component={ProfilePage} />
             <Route component={PageNotFound} />
           </Switch>

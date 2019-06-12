@@ -3,7 +3,10 @@ import {
     GET_USER_PUBLIC_PROFILE,
     GET_MORE_POSTS_BY_USERNAME,
 } from '../constants/actionTypes'
-import { getUserPublicProfileSuccess } from '../actions/profileActions'
+import { 
+    getUserPublicProfileSuccess,
+    getMorePostsByUsernameSuccess,
+} from '../actions/profileActions'
 import {
     getUserPublicProfileAPI,
     getMorePostsByUsernameAPI,
@@ -25,7 +28,7 @@ function* watchGetUserPublicProfileSaga() {
 function* workGetMorePostsByUsernameSaga(action) {
     try {
         const response = yield call(getMorePostsByUsernameAPI, action.username, action.currentPage)
-        console.log(response)
+        yield put(getMorePostsByUsernameSuccess(response.data))
     } catch (err) {
         // handle error
     }

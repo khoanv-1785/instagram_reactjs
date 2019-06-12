@@ -8,11 +8,10 @@ import {
 } from '../constants/actionTypes'
 
 // get posts by username
-export const getPostsByUsername = (username, pageNumber) => {
+export const getPostsByUsername = (username) => {
     return {
         type: GET_POSTS_BY_USERNAME,
         username,
-        pageNumber,
     }
 }
 
@@ -47,9 +46,10 @@ export const getMorePostsByUsername = (username, currentPage) => {
     }
 }
 
-export const getMorePostsByUsernameSuccess = posts => {
+export const getMorePostsByUsernameSuccess = data => {
     return {
         type: GET_MORE_POSTS_BY_USERNAME_SUCCESS,
-        posts,
+         data,
     }
 }
+

@@ -11,6 +11,7 @@ import {
 } from './postSaga'
 import {
 	watchGetUserPublicProfileSaga,
+	watchGetMorePostsByUsernameSaga,
 } from './profileSaga'
 import { all } from 'redux-saga/effects';
 
@@ -24,6 +25,7 @@ export default function * rootSaga () {
 		watchDeleteCommentSaga(),
 		watchGetPostsByUsernameSaga(),
 		watchGetUserPublicProfileSaga(),
+		watchGetMorePostsByUsernameSaga(),
 	])
 }
 

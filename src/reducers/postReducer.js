@@ -3,11 +3,8 @@ import {
     FETCH_POSTS_SUCCESS,
     FETCH_POSTS_ERROR,
     ADD_COMMENT_SUCCESS,
-    ADD_COMMENT,
     LOAD_MORE_COMMENT_SUCCESS,
     DELETE_COMMENT_SUCCESS,
-    GET_POSTS_BY_USERNAME,
-    GET_POSTS_BY_USERNAME_SUCCESS,
 } from '../constants/actionTypes'
 const initialState = {
     isFetching: false,
@@ -86,22 +83,6 @@ const postReducer = (state = initialState, action) => {
                     }
                 })
 
-            }
-        case GET_POSTS_BY_USERNAME:
-            return {
-                ...state,
-                isFetching: true,
-            }
-        case GET_POSTS_BY_USERNAME_SUCCESS:
-            const { meta: { currentPage, nextPage, totalPages }, posts } = action.data
-            state.posts = []
-            return {
-                ...state,
-                isFetching: false,
-                posts: state.posts.concat(posts),
-                currentPage: currentPage,
-                nextPage: nextPage,
-                totalPages: totalPages,
             }
         default:
             return state

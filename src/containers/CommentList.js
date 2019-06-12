@@ -30,7 +30,6 @@ class CommentList extends Component {
     
     renderLoadMoreComment = () => {
         const { currentPage, totalCount, totalPages} = this.state
-        const { postId } = this.props
         if (currentPage < totalPages) {
             return (
                 <div 
@@ -85,11 +84,11 @@ class CommentList extends Component {
         )
     }
 }
-const mapStateToProps = (state) => {
-    return {
-        prop: state.prop
-    }
-}
+// const mapStateToProps = (state) => {
+//     return {
+//         prop: state.prop
+//     }
+// }
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -98,7 +97,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentList)
+export default connect(null, mapDispatchToProps)(CommentList)
 
 CommentList.propTypes = {
     postId: PropTypes.number.isRequired,

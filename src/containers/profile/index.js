@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import HeaderProfileContainer from './HeaderProfileContainer'
 import PhotoGirdProfileContainer from './PhotoGirdProfileContainer'
 import { connect } from 'react-redux'
-import { 
+import {
     getPostsByUsername,
     getUserPublicProfile,
     getMorePostsByUsername,
@@ -21,12 +21,12 @@ class ProfilePage extends Component {
     componentDidMount() {
         const { username } = this.props
         this.props.dispatchGetUserPublicProfile(username)
-        this.props.dispatchGetPostsByUsername(username, 1)
+        this.props.dispatchGetPostsByUsername(username)
         document.addEventListener('scroll', this.handleScrollFetchMorePostsOfUser)
     }
 
     componentWillMount() {
-       document.removeEventListener('scroll', this.handleScrollFetchMorePostsOfUser)
+        document.removeEventListener('scroll', this.handleScrollFetchMorePostsOfUser)
     }
 
     handleScrollFetchMorePostsOfUser = () => {
@@ -37,7 +37,6 @@ class ProfilePage extends Component {
         const { username } = this.props
         if (innerHeight + scrollY >= totalHeight) {
             if (nextPage !== null) {
-                console.log('i am here')
                 this.props.dispatchGetMorePostsByUsername(username, currentPage)
             }
         }
@@ -47,21 +46,22 @@ class ProfilePage extends Component {
         const { isFetching, posts, profilePagination, publicProfile } = this.props
         return (
             <div className="Profile__root container">
-                <HeaderProfileContainer 
+                <HeaderProfileContainer
                     publicProfile={publicProfile}
                     postsLength={posts.length}
                 />
                 {/* hien thi danh sach cac bai post cua user */}
+                <PhotoGirdProfileContainer
+                    posts={posts}
+                    profilePagination={profilePagination}
+                />
                 {
                     isFetching ?
                         <div className="PhotoGallery__spinner-container">
                             <Spinner />
-                        </div> :
-                        <PhotoGirdProfileContainer
-                            posts={posts}
-                            profilePagination={profilePagination}
-                        />
+                        </div> : null
                 }
+
             </div>
         )
     }
@@ -78,7 +78,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatchGetPostsByUsername: (username, pageNumber) => dispatch(getPostsByUsername(username, pageNumber)),
+        dispatchGetPostsByUsername: (username) => dispatch(getPostsByUsername(username)),
         dispatchGetUserPublicProfile: username => dispatch(getUserPublicProfile(username)),
         dispatchGetMorePostsByUsername: (username, currentPage) => dispatch(getMorePostsByUsername(username, currentPage)),
     }

@@ -24,6 +24,6 @@ export const deleteCommentAPI = (postId, commentId) => {
     return intance.delete(`/posts/${postId}/comments/${commentId}`)
 }
 
-export const getPostsByUsernameAPI = (username, pageNumber) => {
-    return intance.get(`/users/${username}/posts?page=${pageNumber}`)
+export const getPostsByUsernameAPI = (username) => {
+    return intance.get(`/users/${username}/posts`)
 }
