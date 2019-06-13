@@ -5,6 +5,8 @@ import {
     GET_USER_PUBLIC_PROFILE_SUCCESS,
     GET_MORE_POSTS_BY_USERNAME,
     GET_MORE_POSTS_BY_USERNAME_SUCCESS,
+    LOAD_MORE_COMMENT_PROFILE,
+    LOAD_MORE_COMMENT_PROFILE_SUCCESS
 } from '../constants/actionTypes'
 
 // get posts by username
@@ -53,3 +55,19 @@ export const getMorePostsByUsernameSuccess = data => {
     }
 }
 
+// get more comment of post in profile
+export const loadMoreCommentProfile = (postId, currentPage) => {
+    return {
+        type: LOAD_MORE_COMMENT_PROFILE,
+        postId,
+        currentPage,
+    }
+}
+
+export const loadMoreCommentProfileSuccess = (postId, comments) => {
+    return {
+        type: LOAD_MORE_COMMENT_PROFILE_SUCCESS,
+        postId,
+        comments,
+    }
+}

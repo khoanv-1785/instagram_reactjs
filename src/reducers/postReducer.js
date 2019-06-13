@@ -24,6 +24,7 @@ const postReducer = (state = initialState, action) => {
             }
         case FETCH_POSTS_SUCCESS:
             state.posts = state.posts.concat(action.data.posts)
+            localStorage.setItem('postsTotal', JSON.stringify(state.posts))
             return {
                 ...state,
                 isFetching: false,

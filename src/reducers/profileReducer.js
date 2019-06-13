@@ -4,6 +4,7 @@ import {
     GET_USER_PUBLIC_PROFILE_SUCCESS,
     GET_MORE_POSTS_BY_USERNAME,
     GET_MORE_POSTS_BY_USERNAME_SUCCESS,
+    LOAD_MORE_COMMENT_PROFILE_SUCCESS
 } from '../constants/actionTypes'
 const profileInitialState = {
     isFetching: false,
@@ -49,6 +50,20 @@ const profileReducer = (state = profileInitialState, action) => {
                 profilePagination: action.data.meta,
                 posts: state.posts.concat(action.data.posts)
 
+            }
+        case LOAD_MORE_COMMENT_PROFILE_SUCCESS:
+            return {
+                ...state,
+                posts: state.posts.map(post => {
+                    if (post.id === action.postId) {
+                        return {
+                            ...post,
+                            comments: post.comments.concat(action.comments)
+                        }
+                    } else {
+                        return post
+                    }
+                })
             }
         default:
             return state

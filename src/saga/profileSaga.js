@@ -2,11 +2,14 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import {
     GET_USER_PUBLIC_PROFILE,
     GET_MORE_POSTS_BY_USERNAME,
+    LOAD_MORE_COMMENT_PROFILE
 } from '../constants/actionTypes'
-import { 
+import {
     getUserPublicProfileSuccess,
     getMorePostsByUsernameSuccess,
+    loadMoreCommentProfileSuccess,
 } from '../actions/profileActions'
+import { loadMoreCommentAPI } from '../api/postAPI'
 import {
     getUserPublicProfileAPI,
     getMorePostsByUsernameAPI,
@@ -38,7 +41,21 @@ function* watchGetMorePostsByUsernameSaga() {
     yield takeLatest(GET_MORE_POSTS_BY_USERNAME, workGetMorePostsByUsernameSaga)
 }
 
+function* workLoadMoreCommentProfileSaga(action) {
+    try {
+        const response = yield call(loadMoreCommentAPI, action.postId, action.currentPage)
+        yield put(loadMoreCommentProfileSuccess(action.postId, response.data.comments))
+    } catch (err) {
+        // handle error
+    }
+}
+
+function* watchLoadMoreCommentProfileSaga() {
+    yield takeLatest(LOAD_MORE_COMMENT_PROFILE, workLoadMoreCommentProfileSaga)
+}
+
 export {
     watchGetUserPublicProfileSaga,
-    watchGetMorePostsByUsernameSaga
+    watchGetMorePostsByUsernameSaga,
+    watchLoadMoreCommentProfileSaga,
 }

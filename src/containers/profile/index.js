@@ -17,7 +17,7 @@ import {
 import Spinner from '../../components/Spinner'
 
 class ProfilePage extends Component {
-
+    
     componentDidMount() {
         const { username } = this.props
         this.props.dispatchGetUserPublicProfile(username)
@@ -43,17 +43,18 @@ class ProfilePage extends Component {
     }
 
     render() {
-        const { isFetching, posts, profilePagination, publicProfile } = this.props
+        const { isFetching, postsProfile, profilePagination, publicProfile, username } = this.props
         return (
             <div className="Profile__root container">
                 <HeaderProfileContainer
                     publicProfile={publicProfile}
-                    postsLength={posts.length}
+                    postsLength={postsProfile.length}
                 />
                 {/* hien thi danh sach cac bai post cua user */}
                 <PhotoGirdProfileContainer
-                    posts={posts}
+                    postsProfile={postsProfile}
                     profilePagination={profilePagination}
+                    username={username}   
                 />
                 {
                     isFetching ?
@@ -70,7 +71,7 @@ class ProfilePage extends Component {
 const mapStateToProps = (state) => {
     return {
         isFetching: getIsFetchingProfileSelector(state),
-        posts: getPostsProfileSelector(state),
+        postsProfile: getPostsProfileSelector(state),
         profilePagination: getProfilePaginationSelector(state),
         publicProfile: getUserProfileSelector(state),
     }

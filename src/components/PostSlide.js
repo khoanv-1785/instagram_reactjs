@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import '../styles/PostModal.css'
 import PropTypes from 'prop-types'
 import avatarDefault from '../images/default-avatar.png'
+import CommentList from '../containers/CommentList'
 
 export default class PostSlide extends Component {
     styleModal = () => {
@@ -35,9 +36,9 @@ export default class PostSlide extends Component {
     }
 
     renderPostSlide = () => {
-        const { post, onNextPost, onPrevPost, isNextPost, isPrevPost } = this.props
+        const { post, onNextPost, onPrevPost, isNextPost, isPrevPost} = this.props
         if (Object.keys(post).length > 0) {
-            const { photoUrl, caption, likesCount, user: { username, avatarUrl } } = post
+            const { id, photoUrl, caption, likesCount, user: { username, avatarUrl }, comments, commentPagination } = post
             return (
                 <div className="PostModal__root">
                     <div className="row">
@@ -46,9 +47,9 @@ export default class PostSlide extends Component {
                                 className="PostModal__prev-btn"
                                 onClick={() => onPrevPost(post.id)}
                             >
-                            {
-                                isPrevPost ? <i className="fa fa-angle-left" /> : null
-                            }
+                                {
+                                    isPrevPost ? <i className="fa fa-angle-left" /> : null
+                                }
                             </button>
                             <div>
                                 <img
@@ -62,9 +63,9 @@ export default class PostSlide extends Component {
                                 className="PostModal__next-btn"
                                 onClick={() => onNextPost(post.id)}
                             >
-                            {
-                                isNextPost ? <i className="fa fa-angle-right" /> : null
-                            }
+                                {
+                                    isNextPost ? <i className="fa fa-angle-right" /> : null
+                                }
                             </button>
                         </div>
                         <div className="PostModal__info-container four columns">
@@ -86,13 +87,14 @@ export default class PostSlide extends Component {
                                 <strong>{username} </strong> {caption}
                             </div>
                             {/* phan commnent list */}
-                            {/* <div className="PostModal__comments">
-                            {post.comments.slice(0, 4).map(comment => (
-                                <div key={comment.id} className="PostModal__comment-item">
-                                    <strong>{comment.username}</strong> {comment.body}
-                                </div>
-                            ))}
-                        </div> */}
+                            <div className="PostModal__comments">
+                               <CommentList 
+                                    postId={id}
+                                    comments={comments}
+                                    commentPagination={commentPagination}
+                                    loadMoreCommentProfile={this.props.loadMoreCommentProfile}
+                               />
+                            </div>
                             {/* phan like or dislike */}
                             {/* <div className="PostModal__action-box">
                             <div className="PostModal__like-button">
@@ -116,6 +118,7 @@ export default class PostSlide extends Component {
         }
 
     }
+    
     render() {
         const { isOpen, onRequestClose } = this.props
         return (
@@ -133,11 +136,14 @@ export default class PostSlide extends Component {
 }
 
 PostSlide.propTypes = {
+    // control open/close modal
     isOpen: PropTypes.bool.isRequired,
     onRequestClose: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
+    // control show/hide next/prev button 
     onNextPost: PropTypes.func.isRequired,
     onPrevPost: PropTypes.func.isRequired,
     isNextPost: PropTypes.bool.isRequired,
     isPrevPost: PropTypes.bool.isRequired,
+
 }
