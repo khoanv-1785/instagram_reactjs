@@ -68,5 +68,4 @@ export default class CommentListItem extends Component {
 
 CommentListItem.propTypes = {
     comment: PropTypes.object.isRequired,
-    handleDeleteComment: PropTypes.func.isRequired,
 }

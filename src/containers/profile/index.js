@@ -14,6 +14,7 @@ import {
     getProfilePaginationSelector,
     getUserProfileSelector,
 } from '../../selector/profileSelector'
+
 import Spinner from '../../components/Spinner'
 
 class ProfilePage extends Component {
@@ -25,7 +26,7 @@ class ProfilePage extends Component {
         document.addEventListener('scroll', this.handleScrollFetchMorePostsOfUser)
     }
 
-    componentWillMount() {
+    componentWillUnmount() {
         document.removeEventListener('scroll', this.handleScrollFetchMorePostsOfUser)
     }
 
@@ -43,7 +44,7 @@ class ProfilePage extends Component {
     }
 
     render() {
-        const { isFetching, postsProfile, profilePagination, publicProfile, username } = this.props
+        const { isFetching, postsProfile, profilePagination, publicProfile  } = this.props
         return (
             <div className="Profile__root container">
                 <HeaderProfileContainer
@@ -54,7 +55,7 @@ class ProfilePage extends Component {
                 <PhotoGirdProfileContainer
                     postsProfile={postsProfile}
                     profilePagination={profilePagination}
-                    username={username}   
+ 
                 />
                 {
                     isFetching ?
@@ -89,7 +90,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)
 ProfilePage.propTypes = {
     username: PropTypes.string.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    posts: PropTypes.array.isRequired,
+    postsProfile: PropTypes.array.isRequired,
     profilePagination: PropTypes.object.isRequired,
     publicProfile: PropTypes.object.isRequired,
     dispatchGetPostsByUsername: PropTypes.func.isRequired,

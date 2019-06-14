@@ -5,3 +5,4 @@ export const getIsFetchingProfileSelector = createSelector(profileGlobalSelector
 export const getPostsProfileSelector = createSelector(profileGlobalSelector, profileReducer => profileReducer.posts)
 export const getProfilePaginationSelector = createSelector(profileGlobalSelector, profileReducer => profileReducer.profilePagination)
 export const getUserProfileSelector = createSelector(profileGlobalSelector, profileReducer => profileReducer.publicProfile)
+export const getCurrentPostSelector = createSelector(profileGlobalSelector, profileReducer => profileReducer.currentPost)

@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import PostSlide from '../../components/PostSlide';
 import _ from 'lodash'
-import { getPostsSelector } from '../../selector/postSelector'
+import { loadMoreCommentProfile, selectCurrentPost } from '../../actions/profileActions'
+import { getCurrentPostSelector } from '../../selector/profileSelector'
 
 class PhotoGirdProfileContainer extends Component {
     constructor(props) {
@@ -13,7 +14,6 @@ class PhotoGirdProfileContainer extends Component {
 
         this.state = {
             ioOpenModal: false,
-            post: {},
             isNextPost: true,
             isPrevPost: true,
         }
@@ -21,27 +21,25 @@ class PhotoGirdProfileContainer extends Component {
 
     handlePhotoGirdClick = (post) => {
         const { postsProfile } = this.props
+        this.props.dispatchSelectCurrentPost(post)
         const currentPostIndex = _.findIndex(postsProfile, postItem => postItem.id === post.id)
         if (currentPostIndex === 0) {
             this.setState({
                 isPrevPost: false,
                 isNextPost: true,
                 isOpenModal: true,
-                post: post,
             })
         } else if (currentPostIndex === postsProfile.length - 1) {
             this.setState({
                 isPrevPost: true,
                 isNextPost: false,
                 isOpenModal: true,
-                post: post,
             })
         } else {
             this.setState({
                 isNextPost: true,
                 isPrevPost: true,
                 isOpenModal: true,
-                post: post,
             })
         }
     }
@@ -54,8 +52,7 @@ class PhotoGirdProfileContainer extends Component {
 
     // handle when click next button
     handleNextPost = (postId) => {
-        // const { postsProfile } = this.props
-        const postsProfile = JSON.parse(localStorage.getItem('postsTotal'))
+        const { postsProfile } = this.props
         const postsLength = postsProfile.length
         const currentPostIndex = _.findIndex(postsProfile, (post) => post.id === postId)
         if (currentPostIndex < postsLength - 1) {
@@ -77,8 +74,7 @@ class PhotoGirdProfileContainer extends Component {
     }
 
     handlePrevPost = (postId) => {
-        // const { postsProfile } = this.props
-        const postsProfile = JSON.parse(localStorage.getItem('postsTotal'))
+        const { postsProfile } = this.props
         const currentPostIndex = _.findIndex(postsProfile, (post) => post.id === postId)
         if (currentPostIndex > 0) {
             this.setState({
@@ -98,25 +94,9 @@ class PhotoGirdProfileContainer extends Component {
         }
     }
 
-    // khi thay doi props
-    //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.postsTotal !== this.props.postsTotal) {
-            const { username } = this.props
-            const postsTotal = JSON.parse(localStorage.getItem('postsTotal'))
-            const currentPostId = this.state.post.id
-            const newPostAfterLoadMoreCommentOfUser = postsTotal.filter(post => post.user.username === username)
-            const currentPostIndex = _.findIndex(newPostAfterLoadMoreCommentOfUser, post => post.id === currentPostId)
-            this.setState({
-                post: newPostAfterLoadMoreCommentOfUser[currentPostIndex]
-            })
-        }
-    }
-
     render() {
-        const { postsProfile } = this.props
-        const { isOpenModal, post, isNextPost, isPrevPost } = this.state
-
+        const { postsProfile, currentPost } = this.props
+        const { isOpenModal, isNextPost, isPrevPost } = this.state
         return (
             <React.Fragment>
                 <div className="PhotoGrid__root">
@@ -125,7 +105,7 @@ class PhotoGirdProfileContainer extends Component {
                             postsProfile.map(post => {
                                 return (
                                     <PhotoGirdItem
-                                        key={post.id}
+                                        key={`profile-key-${post.id}`}
                                         post={post}
                                         onClick={this.handlePhotoGirdClick}
                                     />
@@ -133,16 +113,19 @@ class PhotoGirdProfileContainer extends Component {
                             })
                         }
                     </div>
-                    <PostSlide
-                        isOpen={isOpenModal}
-                        onRequestClose={this.handleCloseModal}
-                        post={post}
-                        onNextPost={this.handleNextPost}
-                        onPrevPost={this.handlePrevPost}
-                        isNextPost={isNextPost}
-                        isPrevPost={isPrevPost}
-                        loadMoreCommentProfile={this.handleLoadMoreCommentProfile}
-                    />
+                    {
+                        currentPost ?
+                            <PostSlide
+                                isOpen={isOpenModal}
+                                onRequestClose={this.handleCloseModal}
+                                post={currentPost}
+                                onNextPost={this.handleNextPost}
+                                onPrevPost={this.handlePrevPost}
+                                isNextPost={isNextPost}
+                                isPrevPost={isPrevPost}
+                                loadMoreComment={(postId, currentPage) => this.props.dispatchLoadMoreCommentProfile(postId, currentPage)}
+                            /> : null
+                    }
                 </div>
             </React.Fragment>
         )
@@ -151,13 +134,14 @@ class PhotoGirdProfileContainer extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        postsTotal: getPostsSelector(state)
+        currentPost: getCurrentPostSelector(state)
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // dispatchLoadMoreCommentProfile: (username, postId, currentPage) => dispatch(loadMoreCommentProfile(username, postId, currentPage))
+        dispatchSelectCurrentPost: (post) => dispatch(selectCurrentPost(post)),
+        dispatchLoadMoreCommentProfile: (postId, currentPage) => dispatch(loadMoreCommentProfile(postId, currentPage)),
     }
 }
 
@@ -166,6 +150,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(PhotoGirdProfileCont
 PhotoGirdProfileContainer.propTypes = {
     postsProfile: PropTypes.array.isRequired,
     profilePagination: PropTypes.object.isRequired,
-    username: PropTypes.string.isRequired,
-    postsTotal: PropTypes.array.isRequired,
 }

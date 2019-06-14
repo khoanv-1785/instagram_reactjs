@@ -36,7 +36,7 @@ export default class PostSlide extends Component {
     }
 
     renderPostSlide = () => {
-        const { post, onNextPost, onPrevPost, isNextPost, isPrevPost} = this.props
+        const { post, onNextPost, onPrevPost, isNextPost, isPrevPost } = this.props
         if (Object.keys(post).length > 0) {
             const { id, photoUrl, caption, likesCount, user: { username, avatarUrl }, comments, commentPagination } = post
             return (
@@ -88,12 +88,12 @@ export default class PostSlide extends Component {
                             </div>
                             {/* phan commnent list */}
                             <div className="PostModal__comments">
-                               <CommentList 
+                                <CommentList
                                     postId={id}
                                     comments={comments}
                                     commentPagination={commentPagination}
-                                    loadMoreCommentProfile={this.props.loadMoreCommentProfile}
-                               />
+                                    loadMoreComment={this.props.loadMoreComment}
+                                />
                             </div>
                             {/* phan like or dislike */}
                             {/* <div className="PostModal__action-box">
@@ -116,15 +116,13 @@ export default class PostSlide extends Component {
         } else {
             return null
         }
-
     }
-    
+
     render() {
         const { isOpen, onRequestClose } = this.props
         return (
             <Modal
                 isOpen={isOpen}
-                // onAfterOpen={this.afterOpenModal}
                 onRequestClose={onRequestClose}
                 style={this.styleModal()}
                 contentLabel="Example Modal"
@@ -145,5 +143,8 @@ PostSlide.propTypes = {
     onPrevPost: PropTypes.func.isRequired,
     isNextPost: PropTypes.bool.isRequired,
     isPrevPost: PropTypes.bool.isRequired,
+
+    // load more comment
+    loadMoreComment: PropTypes.func.isRequired,
 
 }

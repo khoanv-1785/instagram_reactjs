@@ -6,7 +6,8 @@ import {
     GET_MORE_POSTS_BY_USERNAME,
     GET_MORE_POSTS_BY_USERNAME_SUCCESS,
     LOAD_MORE_COMMENT_PROFILE,
-    LOAD_MORE_COMMENT_PROFILE_SUCCESS
+    LOAD_MORE_COMMENT_PROFILE_SUCCESS,
+    SELECT_CURRENT_POST,
 } from '../constants/actionTypes'
 
 // get posts by username
@@ -69,5 +70,12 @@ export const loadMoreCommentProfileSuccess = (postId, comments) => {
         type: LOAD_MORE_COMMENT_PROFILE_SUCCESS,
         postId,
         comments,
+    }
+}
+
+export const selectCurrentPost = (post) => {
+    return {
+        type: SELECT_CURRENT_POST,
+        post,
     }
 }

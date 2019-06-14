@@ -6,6 +6,7 @@ import PostListItem from '../components/PostListItem';
 import { 
     fetchPosts, 
     addComment,
+    loadMoreComment,
 } from '../actions/postActions'
 import Spinner from '../components/Spinner'
 import {
@@ -27,7 +28,7 @@ class PostList extends Component {
         }
     }
 
-    componentWillMount() {
+    componentWillUn() {
         document.removeEventListener('scroll', this.handleScrollFetchPosts)
     }
 
@@ -46,6 +47,7 @@ class PostList extends Component {
     onAddComment = (postId, commentBody) => {
         this.props.dispatchAddComment(postId, commentBody)
     }
+    
 
     render() {
         const { posts, isFetching } = this.props
@@ -59,6 +61,7 @@ class PostList extends Component {
                                     key={post.id}
                                     post={post}
                                     handleAddComment={this.onAddComment}
+                                    loadMoreComment={(postId, currentPage) => this.props.dispatchLoadMoreComment(postId, currentPage)}
                                 />
                             )
                         })
@@ -89,6 +92,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatchFetchPosts: (pageNumber) => dispatch(fetchPosts(pageNumber)),
         dispatchAddComment: (postId, commentBody) => dispatch(addComment(postId, commentBody)),
+        dispatchLoadMoreComment: (postId, currentPage) => dispatch(loadMoreComment(postId, currentPage)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostList)
@@ -97,4 +101,6 @@ PostList.propTypes = {
     isFetching: PropTypes.bool,
     dispatchFetchPosts: PropTypes.func.isRequired,
     dispatchAddComment: PropTypes.func.isRequired,
+    // load more commnent.
+    dispatchLoadMoreComment: PropTypes.func.isRequired,
 }

@@ -2,19 +2,16 @@ import React, { Component } from 'react'
 import CommentListItem from '../components/CommentListItem';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {
-    loadMoreComment,
-    deleteComment,
-} from '../actions/postActions'
-class CommentList extends Component {
+
+export default class CommentList extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
-             currentPage: null,
-             nextPage: null,
-             totalPages: null,
-             totalCount: null,
+            currentPage: null,
+            nextPage: null,
+            totalPages: null,
+            totalCount: null,
         }
     }
 
@@ -27,12 +24,12 @@ class CommentList extends Component {
             totalPages: totalPages,
         })
     }
-    
+
     renderLoadMoreComment = () => {
-        const { currentPage, totalCount, totalPages} = this.state
+        const { currentPage, totalCount, totalPages } = this.state
         if (currentPage < totalPages) {
             return (
-                <div 
+                <div
                     className="GalleryItem__fetch-comments-link"
                     onClick={this.onLoadMoreComemnt}
                 >
@@ -47,17 +44,9 @@ class CommentList extends Component {
     onLoadMoreComemnt = () => {
         const { postId } = this.props
         const { currentPage } = this.state
-        this.props.dispatchLoadMoreComment(postId, currentPage)
+        this.props.loadMoreComment(postId, currentPage)
         this.setState({
             currentPage: currentPage + 1,
-        })
-    }
-
-    dispatchDeleteComment = commentId => {
-        const { postId } = this.props
-        this.props.dispatchDeleteComment(postId, commentId)
-        this.setState({
-            totalCount: this.state.totalCount - 1,
         })
     }
 
@@ -84,24 +73,10 @@ class CommentList extends Component {
         )
     }
 }
-// const mapStateToProps = (state) => {
-//     return {
-//         prop: state.prop
-//     }
-// }
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatchLoadMoreComment:(postId, currentPage) => dispatch(loadMoreComment(postId, currentPage)),
-        dispatchDeleteComment: (postId, commentId) => dispatch(deleteComment(postId, commentId)),
-    }
-}
-
-export default connect(null, mapDispatchToProps)(CommentList)
 
 CommentList.propTypes = {
     postId: PropTypes.number.isRequired,
     comments: PropTypes.array.isRequired,
     commentPagination: PropTypes.object.isRequired,
-    dispatchLoadMoreComment: PropTypes.func.isRequired,
+    loadMoreComment: PropTypes.func.isRequired,
 }

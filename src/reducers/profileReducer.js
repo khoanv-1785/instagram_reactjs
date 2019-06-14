@@ -4,7 +4,8 @@ import {
     GET_USER_PUBLIC_PROFILE_SUCCESS,
     GET_MORE_POSTS_BY_USERNAME,
     GET_MORE_POSTS_BY_USERNAME_SUCCESS,
-    LOAD_MORE_COMMENT_PROFILE_SUCCESS
+    LOAD_MORE_COMMENT_PROFILE_SUCCESS,
+    SELECT_CURRENT_POST,
 } from '../constants/actionTypes'
 const profileInitialState = {
     isFetching: false,
@@ -16,11 +17,12 @@ const profileInitialState = {
         totalCount: 0
     },
     publicProfile: {},
+    cuurentPost: {},
 }
 const profileReducer = (state = profileInitialState, action) => {
     switch (action.type) {
         case GET_POSTS_BY_USERNAME:
-            state.posts = []
+        
             return {
                 ...state,
                 isFetching: true,
@@ -32,17 +34,16 @@ const profileReducer = (state = profileInitialState, action) => {
                 posts: action.data.posts,
                 profilePagination: action.data.meta,
             }
-
         case GET_USER_PUBLIC_PROFILE_SUCCESS:
             return {
                 ...state,
                 publicProfile: action.publicProfile
             }
         case GET_MORE_POSTS_BY_USERNAME:
-                return {
-                    ...state,
-                    isFetching: true
-                }
+            return {
+                ...state,
+                isFetching: true
+            }
         case GET_MORE_POSTS_BY_USERNAME_SUCCESS:
             return {
                 ...state,
@@ -50,6 +51,11 @@ const profileReducer = (state = profileInitialState, action) => {
                 profilePagination: action.data.meta,
                 posts: state.posts.concat(action.data.posts)
 
+            }
+        case SELECT_CURRENT_POST: 
+            return {
+                ...state,
+                currentPost: action.post,
             }
         case LOAD_MORE_COMMENT_PROFILE_SUCCESS:
             return {
