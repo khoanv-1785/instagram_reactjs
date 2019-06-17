@@ -5,98 +5,29 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import PostSlide from '../../components/PostSlide';
 import _ from 'lodash'
-import { loadMoreCommentProfile, selectCurrentPost } from '../../actions/profileActions'
-import { getCurrentPostSelector } from '../../selector/profileSelector'
+import {
+    loadMoreCommentProfile,
+    selectCurrentPost,
+    requestCloseModal,
+    requestOpenModal,
+    nextPost,
+    prevPost,
+    deleteCommentProfile,
+} from '../../actions/profileActions'
+import { 
+    getCurrentPostSelector,
+    getIsNextPostSelector,
+    getIsPrevPostSelector,
+    getIsOpenModalSelector,
+ } from '../../selector/profileSelector'
+
 
 class PhotoGirdProfileContainer extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            ioOpenModal: false,
-            isNextPost: true,
-            isPrevPost: true,
-        }
+    handleDeleteComment = (postId, commentId) => {
+        console.log(postId, commentId)
     }
-
-    handlePhotoGirdClick = (post) => {
-        const { postsProfile } = this.props
-        this.props.dispatchSelectCurrentPost(post)
-        const currentPostIndex = _.findIndex(postsProfile, postItem => postItem.id === post.id)
-        if (currentPostIndex === 0) {
-            this.setState({
-                isPrevPost: false,
-                isNextPost: true,
-                isOpenModal: true,
-            })
-        } else if (currentPostIndex === postsProfile.length - 1) {
-            this.setState({
-                isPrevPost: true,
-                isNextPost: false,
-                isOpenModal: true,
-            })
-        } else {
-            this.setState({
-                isNextPost: true,
-                isPrevPost: true,
-                isOpenModal: true,
-            })
-        }
-    }
-
-    handleCloseModal = () => {
-        this.setState({
-            isOpenModal: false
-        })
-    }
-
-    // handle when click next button
-    handleNextPost = (postId) => {
-        const { postsProfile } = this.props
-        const postsLength = postsProfile.length
-        const currentPostIndex = _.findIndex(postsProfile, (post) => post.id === postId)
-        if (currentPostIndex < postsLength - 1) {
-            this.setState({
-                post: postsProfile[currentPostIndex + 1]
-            })
-        }
-        if (currentPostIndex === postsLength - 2) {
-            this.setState({
-                isNextPost: false,
-                isPrevPost: true,
-            })
-        } else {
-            this.setState({
-                isNextPost: true,
-                isPrevPost: true
-            })
-        }
-    }
-
-    handlePrevPost = (postId) => {
-        const { postsProfile } = this.props
-        const currentPostIndex = _.findIndex(postsProfile, (post) => post.id === postId)
-        if (currentPostIndex > 0) {
-            this.setState({
-                post: postsProfile[currentPostIndex - 1]
-            })
-        }
-        if (currentPostIndex === 1) {
-            this.setState({
-                isPrevPost: false,
-                isNextPost: true,
-            })
-        } else {
-            this.setState({
-                isNextPost: true,
-                isPrevPost: true,
-            })
-        }
-    }
-
     render() {
-        const { postsProfile, currentPost } = this.props
-        const { isOpenModal, isNextPost, isPrevPost } = this.state
+        const { postsProfile, currentPost, isOpenModal, isNextPost, isPrevPost } = this.props
         return (
             <React.Fragment>
                 <div className="PhotoGrid__root">
@@ -107,7 +38,7 @@ class PhotoGirdProfileContainer extends Component {
                                     <PhotoGirdItem
                                         key={`profile-key-${post.id}`}
                                         post={post}
-                                        onClick={this.handlePhotoGirdClick}
+                                        onClick={() => this.props.dispatchSelectCurrentPost(post)}
                                     />
                                 )
                             })
@@ -117,13 +48,14 @@ class PhotoGirdProfileContainer extends Component {
                         currentPost ?
                             <PostSlide
                                 isOpen={isOpenModal}
-                                onRequestClose={this.handleCloseModal}
+                                onRequestClose={() => this.props.dispatchRequestCloseModal()}
                                 post={currentPost}
-                                onNextPost={this.handleNextPost}
-                                onPrevPost={this.handlePrevPost}
+                                onNextPost={(postId) => this.props.dispatchNextPost(postId)}
+                                onPrevPost={(postId) => this.props.dispatchPrevPost(postId)}
                                 isNextPost={isNextPost}
                                 isPrevPost={isPrevPost}
                                 loadMoreComment={(postId, currentPage) => this.props.dispatchLoadMoreCommentProfile(postId, currentPage)}
+                                deleteComment={(postId, commentId) => this.props.dispatchDeleteCommentProfile(postId, commentId)}
                             /> : null
                     }
                 </div>
@@ -134,7 +66,10 @@ class PhotoGirdProfileContainer extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentPost: getCurrentPostSelector(state)
+        currentPost: getCurrentPostSelector(state),
+        isOpenModal: getIsOpenModalSelector(state),
+        isNextPost: getIsNextPostSelector(state),
+        isPrevPost: getIsPrevPostSelector(state),
     }
 }
 
@@ -142,12 +77,31 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatchSelectCurrentPost: (post) => dispatch(selectCurrentPost(post)),
         dispatchLoadMoreCommentProfile: (postId, currentPage) => dispatch(loadMoreCommentProfile(postId, currentPage)),
+        dispatchDeleteCommentProfile: (postId, commentId) => dispatch(deleteCommentProfile(postId, commentId)),
+        dispatchRequestOpenModal: () => dispatch(requestOpenModal()),
+        dispatchRequestCloseModal: () => dispatch(requestCloseModal()),
+        dispatchNextPost: (postId) => dispatch(nextPost(postId)),
+        dispatchPrevPost: (postId) => dispatch(prevPost(postId)),
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhotoGirdProfileContainer)
 
 PhotoGirdProfileContainer.propTypes = {
+    currentPost: PropTypes.object.isRequired,
+    isOpenModal: PropTypes.bool.isRequired,
+    isNextPost: PropTypes.bool.isRequired,
+    isPrevPost: PropTypes.bool.isRequired,
     postsProfile: PropTypes.array.isRequired,
     profilePagination: PropTypes.object.isRequired,
+    dispatchSelectCurrentPost: PropTypes.func.isRequired,
+    dispatchLoadMoreCommentProfile: PropTypes.func.isRequired,
+    dispatchDeleteCommentProfile: PropTypes.func.isRequired,
+    dispatchRequestOpenModal: PropTypes.func.isRequired,
+    dispatchRequestCloseModal: PropTypes.func.isRequired,
+    dispatchNextPost: PropTypes.func.isRequired,
+    dispatchPrevPost: PropTypes.func.isRequired
+
+
+
 }

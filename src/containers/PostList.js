@@ -7,6 +7,7 @@ import {
     fetchPosts, 
     addComment,
     loadMoreComment,
+    deleteComment,
 } from '../actions/postActions'
 import Spinner from '../components/Spinner'
 import {
@@ -51,6 +52,7 @@ class PostList extends Component {
 
     render() {
         const { posts, isFetching } = this.props
+        console.log(posts)
         return (
             <React.Fragment>
                 <div className="PhotoGallery__root">
@@ -62,6 +64,7 @@ class PostList extends Component {
                                     post={post}
                                     handleAddComment={this.onAddComment}
                                     loadMoreComment={(postId, currentPage) => this.props.dispatchLoadMoreComment(postId, currentPage)}
+                                    deleteComment={(postId, commentId) => this.props.dispatchDeleteComment(postId, commentId)}
                                 />
                             )
                         })
@@ -93,6 +96,7 @@ const mapDispatchToProps = (dispatch) => {
         dispatchFetchPosts: (pageNumber) => dispatch(fetchPosts(pageNumber)),
         dispatchAddComment: (postId, commentBody) => dispatch(addComment(postId, commentBody)),
         dispatchLoadMoreComment: (postId, currentPage) => dispatch(loadMoreComment(postId, currentPage)),
+        dispatchDeleteComment: (postId, commentId) => dispatch(deleteComment(postId, commentId)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostList)
@@ -103,4 +107,5 @@ PostList.propTypes = {
     dispatchAddComment: PropTypes.func.isRequired,
     // load more commnent.
     dispatchLoadMoreComment: PropTypes.func.isRequired,
+    dispatchDeleteComment: PropTypes.func.isRequired,
 }

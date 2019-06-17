@@ -93,6 +93,7 @@ export default class PostSlide extends Component {
                                     comments={comments}
                                     commentPagination={commentPagination}
                                     loadMoreComment={this.props.loadMoreComment}
+                                    deleteComment={this.props.deleteComment}
                                 />
                             </div>
                             {/* phan like or dislike */}
@@ -141,10 +142,8 @@ PostSlide.propTypes = {
     // control show/hide next/prev button 
     onNextPost: PropTypes.func.isRequired,
     onPrevPost: PropTypes.func.isRequired,
-    isNextPost: PropTypes.bool.isRequired,
-    isPrevPost: PropTypes.bool.isRequired,
-
     // load more comment
     loadMoreComment: PropTypes.func.isRequired,
-
+    // delete comnet
+    deleteCommnent: PropTypes.func.isRequired,
 }

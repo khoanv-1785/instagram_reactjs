@@ -2,14 +2,16 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import {
     GET_USER_PUBLIC_PROFILE,
     GET_MORE_POSTS_BY_USERNAME,
-    LOAD_MORE_COMMENT_PROFILE
+    LOAD_MORE_COMMENT_PROFILE,
+    DELETE_COMMENT_PROFILE,
 } from '../constants/actionTypes'
 import {
     getUserPublicProfileSuccess,
     getMorePostsByUsernameSuccess,
     loadMoreCommentProfileSuccess,
+    deleteCommentProfileSuccess,
 } from '../actions/profileActions'
-import { loadMoreCommentAPI } from '../api/postAPI'
+import { loadMoreCommentAPI, deleteCommentAPI } from '../api/postAPI'
 import {
     getUserPublicProfileAPI,
     getMorePostsByUsernameAPI,
@@ -54,8 +56,23 @@ function* watchLoadMoreCommentProfileSaga() {
     yield takeLatest(LOAD_MORE_COMMENT_PROFILE, workLoadMoreCommentProfileSaga)
 }
 
+function* workDeleteCommentProfileSaga(action) {
+    try {
+        const { postId, commentId } = action
+        const response = yield call(deleteCommentAPI, postId, commentId)
+        yield put(deleteCommentProfileSuccess(postId, commentId))
+    } catch(err) {
+        // handle error
+    }
+}
+
+function* watchDeleteCommentProfileSaga() {
+    yield takeLatest(DELETE_COMMENT_PROFILE, workDeleteCommentProfileSaga)
+}
+
 export {
     watchGetUserPublicProfileSaga,
     watchGetMorePostsByUsernameSaga,
     watchLoadMoreCommentProfileSaga,
+    watchDeleteCommentProfileSaga,
 }

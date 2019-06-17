@@ -84,6 +84,7 @@ export default class PostListItem extends Component {
                         comments={comments}
                         commentPagination={commentPagination}
                         loadMoreComment={this.props.loadMoreComment}
+                        deleteComment={this.props.deleteComment}
                      />
                     <div className="GalleryItem__action-box">
                         <div className="GalleryItem__like-button">
@@ -113,4 +114,5 @@ export default class PostListItem extends Component {
 PostListItem.propTypes = {
     handleAddComment: PropTypes.func.isRequired,
     loadMoreComment: PropTypes.func.isRequired,
+    deleteComment: PropTypes.func.isRequired,
 }

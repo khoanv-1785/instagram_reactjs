@@ -57,7 +57,7 @@ const postReducer = (state = initialState, action) => {
                 })
             }
         case LOAD_MORE_COMMENT_SUCCESS:
-            
+
             return {
                 ...state,
                 posts: state.posts.map(post => {
@@ -72,19 +72,20 @@ const postReducer = (state = initialState, action) => {
                 })
             }
         case DELETE_COMMENT_SUCCESS:
+           //  console.log('ban dang o day')
+            const posts = state.posts.map(post => {
+                if (post.id === action.postId) {
+                    return {
+                        ...post,
+                        comments: post.comments.filter(comment => comment.id !== action.commentId)
+                    }
+                } else {
+                    return post
+                }
+            })
             return {
                 ...state,
-                posts: state.posts.map(post => {
-                    if (post.id === action.postId) {
-                        return {
-                            ...post,
-                            comments: post.comments.filter(comment => comment.id !== action.commentId)
-                        }
-                    } else {
-                        return post
-                    }
-                })
-
+                posts: posts,
             }
         default:
             return state

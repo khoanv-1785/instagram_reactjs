@@ -25,8 +25,8 @@ export default class CommentListItem extends Component {
         })
     }
 
-    handleDeleComment = (id) => {
-       this.props.handleDeleteComment(id)
+    handleDeleteComment(id) {
+       this.props.deleteComment(id)
        this.setState({
            isOpenConfirmModal: false
        })
@@ -57,8 +57,9 @@ export default class CommentListItem extends Component {
                 <ConfirmModal
                     isOpen={isOpenConfirmModal}
                     onRequestClose={this.handleCloseConfirmModal}
-                    onClickConfirm={() => this.handleDeleComment(id)}
+                    onClickConfirm={() => this.handleDeleteComment(id)}
                     confirmMessage="Delete comment"
+
                     cancelMessage="cancel"
                 />
             </div>
@@ -68,4 +69,5 @@ export default class CommentListItem extends Component {
 
 CommentListItem.propTypes = {
     comment: PropTypes.object.isRequired,
+    deleteComment: PropTypes.func.isRequired,
 }

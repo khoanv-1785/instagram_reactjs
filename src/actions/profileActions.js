@@ -8,6 +8,12 @@ import {
     LOAD_MORE_COMMENT_PROFILE,
     LOAD_MORE_COMMENT_PROFILE_SUCCESS,
     SELECT_CURRENT_POST,
+    REQUEST_CLOSE_MODAL,
+    REQUEST_OPEN_MODAL,
+    NEXT_POST,
+    PREV_POST,
+    DELETE_COMMENT_PROFILE,
+    DELETE_COMMENT_PROFILE_SUCCESS
 } from '../constants/actionTypes'
 
 // get posts by username
@@ -77,5 +83,47 @@ export const selectCurrentPost = (post) => {
     return {
         type: SELECT_CURRENT_POST,
         post,
+    }
+}
+
+export const requestOpenModal = () => {
+    return {
+        type: REQUEST_OPEN_MODAL
+    }
+}
+
+export const requestCloseModal = () => {
+    return {
+        type: REQUEST_CLOSE_MODAL
+    }
+}
+
+export const nextPost = postId => {
+    return {
+        type: NEXT_POST,
+        postId,
+    }
+}
+
+export const prevPost = postId => {
+    return {
+        type: PREV_POST,
+        postId,
+    }
+}
+
+export const deleteCommentProfile = (postId, commentId) => {
+    return {
+        type: DELETE_COMMENT_PROFILE,
+        postId,
+        commentId,
+    }
+}
+
+export const deleteCommentProfileSuccess = (postId, commentId) => {
+    return {
+        type: DELETE_COMMENT_PROFILE_SUCCESS,
+        postId, 
+        commentId,
     }
 }

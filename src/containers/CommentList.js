@@ -51,7 +51,7 @@ export default class CommentList extends Component {
     }
 
     render() {
-        const { comments } = this.props
+        const { comments, postId } = this.props
         return (
             <div className="GalleryItem__comments">
                 {
@@ -60,10 +60,11 @@ export default class CommentList extends Component {
                             <CommentListItem
                                 key={comment.id}
                                 comment={comment}
-                                handleDeleteComment={this.dispatchDeleteComment}
+                                deleteComment={(commentId) => this.props.deleteComment(postId, commentId)}
                             />
                         )
                     })
+                    
                 }
                 {/* laod more comment of post */}
                 <div className="GalleryItem__fetch-comments-link">
@@ -79,4 +80,5 @@ CommentList.propTypes = {
     comments: PropTypes.array.isRequired,
     commentPagination: PropTypes.object.isRequired,
     loadMoreComment: PropTypes.func.isRequired,
+    deleteComment: PropTypes.func.isRequired,
 }
