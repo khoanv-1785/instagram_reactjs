@@ -15,21 +15,21 @@ export default class PostListItem extends Component {
     }
 
     render() {
-        const { 
-            id, 
-            photoUrl, 
-            caption, 
-            createdAt, 
-            userId, 
-            address, 
-            placeId, 
+        const {
+            id,
+            photoUrl,
+            caption,
+            createdAt,
+            userId,
+            address,
+            placeId,
             likesCount,
             commentPagination,
-            user: { 
+            user: {
                 username,
-                avatarUrl 
-            }, 
-            comments 
+                avatarUrl
+            },
+            comments
         } = this.props.post
 
         return (
@@ -80,29 +80,29 @@ export default class PostListItem extends Component {
                     {/* {this.renderViewMoreComments()} */}
                     {/* {this.renderComments()} */}
                     <CommentList
-                        postId={id} 
+                        postId={id}
                         comments={comments}
                         commentPagination={commentPagination}
                         loadMoreComment={this.props.loadMoreComment}
                         deleteComment={this.props.deleteComment}
-                     />
+                    />
                     <div className="GalleryItem__action-box">
                         <div className="GalleryItem__like-button">
                             {/*  like button */}
-                            <LikeButton />
-                            {/* <LikeButton
-                                onLike={this.props.onLike}
-                                onDislike={this.props.onDislike}
-                                liked={this.props.liked}
-                            /> */}
+                            <LikeButton 
+                               // isLiked={this.props.isLiked}
+                                // onLike={this.props.onLike}
+                                // onDisLike={this.props.onDisLike}
+                                // postId={id}
+                            />
+                            
                         </div>
                         <div className="GalleryItem__comment-box">
-                            {/* list comment */}
+                            {/* add comment */}
                             <CommentBox
                                 postId={id}
                                 onSubmitCommentBox={this.handleAddComment}
-                             />
-                            {/* <CommentBox onSubmit={this.props.onCommentSubmit} /> */}
+                            />
                         </div>
                     </div>
                 </div>
@@ -112,7 +112,12 @@ export default class PostListItem extends Component {
 }
 
 PostListItem.propTypes = {
+    // add/load more/delete commment
     handleAddComment: PropTypes.func.isRequired,
     loadMoreComment: PropTypes.func.isRequired,
     deleteComment: PropTypes.func.isRequired,
+    //like/dislike post
+   // isLiked: PropTypes.bool.isRequired,
+    // onLike: PropTypes.func.isRequired,
+    // onDisLike: PropTypes.func.isRequired,
 }

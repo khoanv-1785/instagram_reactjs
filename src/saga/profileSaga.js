@@ -4,14 +4,20 @@ import {
     GET_MORE_POSTS_BY_USERNAME,
     LOAD_MORE_COMMENT_PROFILE,
     DELETE_COMMENT_PROFILE,
+    ADD_COMMENT_PROFILE,
 } from '../constants/actionTypes'
 import {
     getUserPublicProfileSuccess,
     getMorePostsByUsernameSuccess,
     loadMoreCommentProfileSuccess,
     deleteCommentProfileSuccess,
+    addCommentProfileSuccess,
 } from '../actions/profileActions'
-import { loadMoreCommentAPI, deleteCommentAPI } from '../api/postAPI'
+import {
+    loadMoreCommentAPI,
+    deleteCommentAPI,
+    addCommentAPI,
+} from '../api/postAPI'
 import {
     getUserPublicProfileAPI,
     getMorePostsByUsernameAPI,
@@ -61,7 +67,7 @@ function* workDeleteCommentProfileSaga(action) {
         const { postId, commentId } = action
         const response = yield call(deleteCommentAPI, postId, commentId)
         yield put(deleteCommentProfileSuccess(postId, commentId))
-    } catch(err) {
+    } catch (err) {
         // handle error
     }
 }
@@ -70,9 +76,24 @@ function* watchDeleteCommentProfileSaga() {
     yield takeLatest(DELETE_COMMENT_PROFILE, workDeleteCommentProfileSaga)
 }
 
+// add commnent profile.
+function* workAddCommentProfileSaga(action) {
+    try {
+        const  response = yield call(addCommentAPI, action.postId, action.commentBody)
+        yield put(addCommentProfileSuccess(action.postId, response.data.comment))
+    } catch (err) {
+        // handle err
+    }
+}
+
+function* watchAddCommentProfileSaga() {
+    yield takeLatest(ADD_COMMENT_PROFILE, workAddCommentProfileSaga)
+}
+
 export {
     watchGetUserPublicProfileSaga,
     watchGetMorePostsByUsernameSaga,
     watchLoadMoreCommentProfileSaga,
     watchDeleteCommentProfileSaga,
+    watchAddCommentProfileSaga,
 }

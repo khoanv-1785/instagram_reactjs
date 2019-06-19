@@ -46,4 +46,5 @@ export default class CommentBox extends Component {
 
 CommentBox.propTypes = {
     onSubmitCommentBox: PropTypes.func.isRequired,
+    postId: PropTypes.number.isRequired,
 }

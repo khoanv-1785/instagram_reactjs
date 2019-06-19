@@ -13,7 +13,9 @@ import {
     NEXT_POST,
     PREV_POST,
     DELETE_COMMENT_PROFILE,
-    DELETE_COMMENT_PROFILE_SUCCESS
+    DELETE_COMMENT_PROFILE_SUCCESS,
+    ADD_COMMENT_PROFILE,
+    ADD_COMMENT_PROFILE_SUCCESS,
 } from '../constants/actionTypes'
 
 // get posts by username
@@ -127,3 +129,22 @@ export const deleteCommentProfileSuccess = (postId, commentId) => {
         commentId,
     }
 }
+
+// add commnent profile.
+export const addCommentProfile = (postId, commentBody) => {
+    return {
+        type: ADD_COMMENT_PROFILE,
+        postId,
+        commentBody,
+    }
+}
+
+export const addCommentProfileSuccess = (postId, comment) => {
+    
+    return {
+        type: ADD_COMMENT_PROFILE_SUCCESS,
+        postId,
+        comment,
+    }
+}
+

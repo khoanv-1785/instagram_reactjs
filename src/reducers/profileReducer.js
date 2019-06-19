@@ -10,6 +10,7 @@ import {
     NEXT_POST,
     PREV_POST,
     DELETE_COMMENT_PROFILE_SUCCESS,
+    ADD_COMMENT_PROFILE_SUCCESS,
 } from '../constants/actionTypes'
 import _ from 'lodash'
 
@@ -134,7 +135,17 @@ const profileReducer = (state = profileInitialState, action) => {
                 currentPost: {
                     ...state.currentPost,
                     comments: state.currentPost.comments.concat(action.comments)
-                }
+                },
+                posts: state.posts.map(post => {
+                    if (post.id === action.postId) {
+                        return {
+                            ...post,
+                            comments: post.comments.concat(action.comments)
+                        }
+                    } else {
+                        return post
+                    }
+                })
             }
         case DELETE_COMMENT_PROFILE_SUCCESS: 
             return {
@@ -142,6 +153,40 @@ const profileReducer = (state = profileInitialState, action) => {
                 currentPost: {
                     ...state.currentPost,
                     comments: state.currentPost.comments.filter(comment => comment.id !== action.commentId)
+                },
+                posts: state.posts.map(post => {
+                    if (post.id === action.postId) {
+                        return {
+                            ...post,
+                            comments: post.comments.filter(comment => comment.id !== action.commentId)
+                        }
+                    } else {
+                        return post
+                    }
+                })
+            }
+        case ADD_COMMENT_PROFILE_SUCCESS:
+            return {
+                ...state,
+                posts: state.posts.map(post => {
+                    if (post.id === action.postId) {
+                        return {
+                            ...post,
+                            comments: [
+                                ...post.comments,
+                                action.comment
+                            ]
+                        }
+                    } else {
+                        return post
+                    }
+                }),
+                currentPost: {
+                    ...state.currentPost,
+                    comments: [
+                        ...state.currentPost.comments,
+                        action.comment
+                    ]
                 }
             }
         default:

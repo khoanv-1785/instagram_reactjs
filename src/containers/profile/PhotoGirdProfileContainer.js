@@ -13,6 +13,7 @@ import {
     nextPost,
     prevPost,
     deleteCommentProfile,
+    addCommentProfile,
 } from '../../actions/profileActions'
 import { 
     getCurrentPostSelector,
@@ -23,9 +24,6 @@ import {
 
 
 class PhotoGirdProfileContainer extends Component {
-    handleDeleteComment = (postId, commentId) => {
-        console.log(postId, commentId)
-    }
     render() {
         const { postsProfile, currentPost, isOpenModal, isNextPost, isPrevPost } = this.props
         return (
@@ -56,6 +54,7 @@ class PhotoGirdProfileContainer extends Component {
                                 isPrevPost={isPrevPost}
                                 loadMoreComment={(postId, currentPage) => this.props.dispatchLoadMoreCommentProfile(postId, currentPage)}
                                 deleteComment={(postId, commentId) => this.props.dispatchDeleteCommentProfile(postId, commentId)}
+                                addCommentProfile={(postId, commentBody) => this.props.dispatchAddCommentProfile(postId, commentBody)}
                             /> : null
                     }
                 </div>
@@ -82,6 +81,7 @@ const mapDispatchToProps = (dispatch) => {
         dispatchRequestCloseModal: () => dispatch(requestCloseModal()),
         dispatchNextPost: (postId) => dispatch(nextPost(postId)),
         dispatchPrevPost: (postId) => dispatch(prevPost(postId)),
+        dispatchAddCommentProfile: (postId, commentBody) => dispatch(addCommentProfile(postId, commentBody)),
     }
 }
 
@@ -100,8 +100,6 @@ PhotoGirdProfileContainer.propTypes = {
     dispatchRequestOpenModal: PropTypes.func.isRequired,
     dispatchRequestCloseModal: PropTypes.func.isRequired,
     dispatchNextPost: PropTypes.func.isRequired,
-    dispatchPrevPost: PropTypes.func.isRequired
-
-
-
+    dispatchPrevPost: PropTypes.func.isRequired,
+    dispatchAddCommentProfile: PropTypes.func.isRequired,
 }

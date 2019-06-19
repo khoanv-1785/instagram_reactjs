@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import CommentListItem from '../components/CommentListItem';
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
 export default class CommentList extends Component {
     constructor(props) {

@@ -8,6 +8,11 @@ import {
     LOAD_MORE_COMMENT_SUCCESS,
     DELETE_COMMENT,
     DELETE_COMMENT_SUCCESS,
+    LIKE_POST,
+    LIKE_POST_SUCCESS,
+    DISLIKE_POST,
+    DISLIKE_POST_SUCCESS,
+    UPLOAD_POST,
 } from '../constants/actionTypes'
 
 export const fetchPosts = (pageNumber) => {
@@ -82,4 +87,43 @@ export const deleteCommentSuccess = (postId, commentId) => {
     }
 }
 
+// like/dislike post
+export const likePost = postId => {
+    return {
+        type: LIKE_POST,
+        postId
+    }
+}
 
+export const likePostSuccess = postId => {
+    return {
+        type: LIKE_POST_SUCCESS,
+        postId,
+    }
+}
+
+export const dislikePost = postId => {
+    return {
+        type: DISLIKE_POST,
+        postId,
+    }
+}
+
+export const dislikePostSuccess = postId => {
+    return {
+        type: DISLIKE_POST_SUCCESS,
+        postId,
+    }
+}
+
+// upload post 
+export const uploadPost = file => {
+    let formData = new FormData()
+    formData.append('photo', file)
+    console.log(formData)
+    console.log(file)
+    return {
+        type: UPLOAD_POST,
+        formData,
+    }
+}

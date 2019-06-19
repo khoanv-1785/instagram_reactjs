@@ -27,3 +27,15 @@ export const deleteCommentAPI = (postId, commentId) => {
 export const getPostsByUsernameAPI = (username) => {
     return intance.get(`/users/${username}/posts`)
 }
+
+export const likePostAPI = (postId) => {
+    return intance.post(`users/posts/${postId}/likes`)
+}
+
+export const disLikePostAPI = (postId) => {
+    return intance.delete(`users/posts/${postId}/likes`)
+}
+
+export const uploadPostAPI = formData => {
+    return intance.post('/posts', formData)
+}

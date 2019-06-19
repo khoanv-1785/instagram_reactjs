@@ -17,6 +17,7 @@ import {
     getTotalPagesSelector,
     getPostsSelector,
 } from '../selector/postSelector'
+import _ from 'lodash'
 
 class PostList extends Component {
     componentDidMount() {
@@ -44,15 +45,10 @@ class PostList extends Component {
             }
         }
     }
-
-    onAddComment = (postId, commentBody) => {
-        this.props.dispatchAddComment(postId, commentBody)
-    }
-    
-
     render() {
         const { posts, isFetching } = this.props
-        console.log(posts)
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+        const { likedPostIds } = currentUser
         return (
             <React.Fragment>
                 <div className="PhotoGallery__root">
@@ -62,9 +58,15 @@ class PostList extends Component {
                                 <PostListItem
                                     key={post.id}
                                     post={post}
-                                    handleAddComment={this.onAddComment}
+                                    // add/delete/load comment
+                                    handleAddComment={(postId, commentBody) => this.props.dispatchAddComment(postId, commentBody)}
                                     loadMoreComment={(postId, currentPage) => this.props.dispatchLoadMoreComment(postId, currentPage)}
                                     deleteComment={(postId, commentId) => this.props.dispatchDeleteComment(postId, commentId)}
+                                    //like/dislike post
+                                    // isLiked={_.indexOf(likedPostIds, post.id) === -1 ? false : true}
+                                    onLike={this.handleLike}
+                                    onDisLike={this.handleDisLike}
+                                    
                                 />
                             )
                         })
@@ -108,4 +110,6 @@ PostList.propTypes = {
     // load more commnent.
     dispatchLoadMoreComment: PropTypes.func.isRequired,
     dispatchDeleteComment: PropTypes.func.isRequired,
+    // like/dislike post
+
 }

@@ -4,7 +4,7 @@ import '../styles/PostModal.css'
 import PropTypes from 'prop-types'
 import avatarDefault from '../images/default-avatar.png'
 import CommentList from '../containers/CommentList'
-
+import CommentBox from '../components/CommentBox'
 export default class PostSlide extends Component {
     styleModal = () => {
         return {
@@ -97,19 +97,22 @@ export default class PostSlide extends Component {
                                 />
                             </div>
                             {/* phan like or dislike */}
-                            {/* <div className="PostModal__action-box">
-                            <div className="PostModal__like-button">
+                             <div className="PostModal__action-box">
+                            {/* <div className="PostModal__like-button">
                                 <LikeButton
                                     onLike={this.props.onLike}
                                     onDislike={this.props.onDislike}
                                     liked={this.props.liked}
                                 />
-                            </div>
-                            // phan add comment
+                            </div> */}
+                            {/* // phan add comment */}
                             <div className="PostModal__comment-box">
-                                <CommentBox onSubmit={this.props.onCommentSubmit} />
+                                <CommentBox 
+                                    onSubmitCommentBox={this.props.addCommentProfile} 
+                                    postId={id}
+                                />
                             </div>
-                        </div> */}
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -146,4 +149,6 @@ PostSlide.propTypes = {
     loadMoreComment: PropTypes.func.isRequired,
     // delete comnet
     deleteCommnent: PropTypes.func.isRequired,
+    // add comment profile
+    addCommentProfile: PropTypes.func.isRequired,
 }
