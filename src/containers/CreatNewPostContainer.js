@@ -3,19 +3,14 @@ import '../styles/NewPostBoard.css'
 import PictureDropzone from '../components/DropPicture'
 
 export default class CreatNewPostContainer extends Component {
+
+    onDrop = (files) => {
+        console.log(files[0])
+    }
+
     render() {
         return (
-            <div className="NewPostBoard__tab-panel">
-                <div className="NewPostBoard__root">
-                    <div className="row">
-                        <div className="twelve columns">
-                            <div className="NewPostBoard__dropzone-wrapper">
-                                <PictureDropzone onDrop={this.onDrop} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <PictureDropzone onDrop={this.onDrop} />
         )
     }
 }

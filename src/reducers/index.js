@@ -3,6 +3,7 @@ import signInReducer from './signInReducer'
 import signUpReducer from './signUpReducer'
 import postReducer from './postReducer'
 import profileReducer from './profileReducer';
+import createPostReducer from './creatPostReducer'
 import { reducer as reduxFormReducer } from 'redux-form';
 
 const reducer = combineReducers({
@@ -11,6 +12,7 @@ const reducer = combineReducers({
 	signUpReducer,
 	postReducer,
 	profileReducer,
+	createPostReducer,
 })
 
 export default reducer

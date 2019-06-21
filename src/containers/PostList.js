@@ -47,8 +47,6 @@ class PostList extends Component {
     }
     render() {
         const { posts, isFetching } = this.props
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-        const { likedPostIds } = currentUser
         return (
             <React.Fragment>
                 <div className="PhotoGallery__root">

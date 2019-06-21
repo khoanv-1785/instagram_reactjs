@@ -16,7 +16,7 @@ import configureStore from './store/index'
 import { PrivateRouter } from './ultis/PrivateRouter'
 import { Provider } from 'react-redux'
 import PostSlide from './components/PostSlide';
-import UpLoadPage from './view/UpLoadPage';
+import CreateNewPostPage from './containers/creatPost/index'
 
 const store = configureStore()
 
@@ -31,9 +31,8 @@ class App extends Component {
             <Route exact={true} path={LOGIN} component={SignInPage} />
             <Route exact={true} path={REGISTER} component={SignUpPage} />
             <Route exact={true} path="/test" component={PostSlide} />
-            <Route path="/upload" component={UpLoadPage} />
+            <Route path="/upload" component={CreateNewPostPage} />
             <PrivateRouter exact path={PROFILE} component={ProfilePage} />
-            
             <Route component={PageNotFound} />
           </Switch>
         </Router>

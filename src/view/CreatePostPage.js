@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import { uploadPost } from '../actions/postActions'
 import Modal from 'react-modal'
 import NewPostButton from '../components/NewPostButton';
+// import CreatNewPostContainer from '../containers/CreatNewPostContainer';
+import '../styles/NewPostBoard.css'
 import CreatNewPostContainer from '../containers/CreatNewPostContainer';
-
 const customStyles = {
     overlay: {
         position: 'fixed',
@@ -12,7 +13,7 @@ const customStyles = {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0,0,0, 0.8)'
+        backgroundColor: 'rgba(0,0,0, 0.3)'
     },
     content: {
         position: 'absolute',
@@ -55,17 +56,18 @@ class UpLoadPage extends Component {
     //     console.log('click')
     // }
 
-    // handleDropPicture = (acceptedFiles, rejectedFiles) => {
-    //     let currentFile = acceptedFiles[0]
-    //     let reader = new FileReader()
-    //     reader.addEventListener("load", () => {
-    //         this.setState({
-    //             imageReview: reader.result
-    //         })
-    //     })
-    //     reader.readAsDataURL(currentFile)
+    handleDropPicture = (acceptedFiles, rejectedFiles) => {
+        console.log(acceptedFiles[0])
+        // let currentFile = acceptedFiles[0]
+        // let reader = new FileReader()
+        // reader.addEventListener("load", () => {
+        //     this.setState({
+        //         imageReview: reader.result
+        //     })
+        // })
+        // reader.readAsDataURL(currentFile)
 
-    // }
+    }
     onOpenModal = () => {
         this.setState({
             isOpenModal: true

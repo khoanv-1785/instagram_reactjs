@@ -8,7 +8,7 @@ const DropPicture = ({ onDrop }) => {
             className="NewPostBoard__dropzone"
             onDrop={onDrop}
             multiple={false}
-            accept="image/*">
+            accept="image/*"> 
             {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps()}>
                     <div className="NewPostBoard__dropzone-inner-wrapper">
@@ -18,7 +18,7 @@ const DropPicture = ({ onDrop }) => {
                             </div>
                             <div className="NewPostBoard__dropzone-text">Upload Picture</div>
                         </div>
-                        <input type="file" accept="image/*" style={{display: 'none'}} />
+                        <input type="file" accept="image/*" style={{display: 'none'}}/>
                     </div>
                 </div>
             )}

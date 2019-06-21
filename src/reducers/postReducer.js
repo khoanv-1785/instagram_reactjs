@@ -56,7 +56,6 @@ const postReducer = (state = initialState, action) => {
                 })
             }
         case LOAD_MORE_COMMENT_SUCCESS:
-
             return {
                 ...state,
                 posts: state.posts.map(post => {
