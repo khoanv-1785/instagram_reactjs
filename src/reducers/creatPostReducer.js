@@ -1,10 +1,13 @@
 import {
     NEXT_STEP_CREATE_POST,
     PREV_STEP_CREATE_POST,
+    DROP_IMAGE,
 } from '../constants/actionTypes'
 
 const initialState = {
-    activeStepIndex: 0
+    activeStepIndex: 0,
+    imageFile: {}, // chua thong tin cua file anh
+    formData: [], // chua 1 mang thong tin ve bai post.
 }
 
 const createPostReducer = (state = initialState, action) => {
@@ -18,6 +21,11 @@ const createPostReducer = (state = initialState, action) => {
             return {
                 ...state,
                 activeStepIndex: state.activeStepIndex - 1
+            }
+        case DROP_IMAGE:
+            return {
+                ...state,
+                imageFile: action.imageFile,
             }
         default:
             return state

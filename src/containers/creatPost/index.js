@@ -7,6 +7,8 @@ import EditImageContainer from '../creatPost/EditImageContainer'
 import Modal from 'react-modal'
 import '../../styles/NewPostBoard.css'
 import { getActiveStepIndexSelector } from '../../selector/createPostSelector'
+import PropTypes from 'prop-types'
+
 const customStyles = {
     overlay: {
         position: 'fixed',
@@ -98,3 +100,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)
+index.propTypes = {
+    activeStepIndex: PropTypes.number.isRequired,
+}
