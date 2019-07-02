@@ -3,29 +3,41 @@ import { connect } from 'react-redux'
 import {
     nextStepCreatePost,
     prevStepCreateposts,
+    editImage,
+    resetEditImage,
 } from '../../actions/createPostAction'
 import Slider from 'material-ui/Slider'
 import TabButton from '../../components/TabButton'
 import PropTypes from 'prop-types'
 import {
     getImageFileSelector,
+    getStylesSelector,
+    getImageSrcSelector,
 } from '../../selector/createPostSelector'
-import { getImagePreview } from '../../ultis/filter'
+import _isEmpty from 'lodash/isEmpty'
+import { getImageReviewStyle} from '../../ultis/filter'
+import FilterButton from '../../components/FilterButton'
+import { listFilter } from '../../config/filter';
+
 class EditImageContainer extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
             imageSrc: '',
-            selectedTab: 'filter',
+            selectedTab: 'edit',
             styles: {
-                brightness: 1.0,
-                contrast: 1.0,
-                saturation: 1.0
+                brightness: 1,
+                contrast: 1,
+                saturation: 1,
+                hueRotate: 0,
+                grayScale: 0,
+                sepia: 0,
             }
         }
     }
+
     componentDidMount() {
+        const { imageSrc, styles } = this.props
         const reader = new FileReader()
         reader.addEventListener("load", () => {
             const imageSrc = reader.result
@@ -34,6 +46,13 @@ class EditImageContainer extends Component {
             })
         }, false);
         reader.readAsDataURL(this.props.imageFile); // Converting file into data URL
+        if(!_isEmpty(imageSrc) && !_isEmpty(styles)) {
+            this.setState({
+                imageSrc: imageSrc,
+                selectedTab: 'edit',
+                styles: styles
+            })
+        }
     }
 
     changeTabSelected = tab => {
@@ -44,11 +63,11 @@ class EditImageContainer extends Component {
 
     handleChangeBrightness = (event, value) => {
         this.setState({
-           ...this.state,
-           styles: {
-               ...this.state.styles,
-               brightness: value,
-           }
+            ...this.state,
+            styles: {
+                ...this.state.styles,
+                brightness: value,
+            }
         })
     }
 
@@ -59,7 +78,7 @@ class EditImageContainer extends Component {
                 ...this.state.styles,
                 contrast: value,
             }
-         })
+        })
     }
 
     handleChangeSaturation = (event, value) => {
@@ -69,10 +88,40 @@ class EditImageContainer extends Component {
                 ...this.state.styles,
                 saturation: value,
             }
-         })
+        })
     }
+
+    handleIFilterItemClick = (item) => {
+        this.setState({
+            ...this.state,
+            styles: {
+                brightness: item.brightness,
+                contrast: item.contrast,
+                saturation: item.saturate,
+                hueRotate: item.hueRotate,
+                grayScale: item.grayScale,
+                sepia: item.sepia,
+            }
+        })
+    }
+
+    handleNextStepCreatePost = () => {
+        const { imageSrc, styles } = this.state
+        const imageData = {
+            imageSrc: imageSrc,
+            styles: styles,
+        }
+        this.props.dispatchEditImage(imageData)
+        this.props.dispatchNextStepCreatePost()
+    }
+
+    handlePrevStepCreatePost = () => {
+         this.props.dispatchPrevStepCreatePost()
+         this.props.dispatchResetEditImage()
+    }
+
     renderTabPanel = () => {
-        const { selectedTab, styles: { brightness, contrast, saturation } } = this.state
+        const { imageSrc, selectedTab, styles: { brightness, contrast, saturation } } = this.state
         if (selectedTab === 'edit') {
             return (
                 <div className="NewPostBoard__tab-panel">
@@ -87,14 +136,13 @@ class EditImageContainer extends Component {
                             min={0.1}
                             max={2.00}
                             step={0.01}
-                        // disabled={this.state.files.length === 0}
                         />
                     </div>
 
                     <div className="NewPostBoard__slider-item">
                         <label className="NewPostBoard__slider-label">
                             <i className="fa fa-adjust NewPostBoard__slider-icon" aria-hidden="true" /> Contrast
-                                    </label>
+                        </label>
                         <Slider
                             defaultValue={1.0}
                             value={contrast}
@@ -102,23 +150,20 @@ class EditImageContainer extends Component {
                             min={0.1}
                             max={2.00}
                             step={0.01}
-                            name="contrast"
-                        // disabled={this.state.files.length === 0}
                         />
                     </div>
 
                     <div className="NewPostBoard__slider-item">
                         <label className="NewPostBoard__slider-label">
                             <i className="fa fa-tint NewPostBoard__slider-icon" aria-hidden="true" /> Saturation
-                                    </label>
+                        </label>
                         <Slider
                             defaultValue={1.0}
                             value={saturation}
                             onChange={this.handleChangeSaturation}
-                            min={0.00}
-                            max={2.00}
+                            min={0.1}
+                            max={2}
                             step={0.01}
-                        // disabled={this.state.files.length === 0}
                         />
                     </div>
                 </div>
@@ -126,14 +171,25 @@ class EditImageContainer extends Component {
         } else {
             return (
                 <div className="NewPostBoard__filters">
-                    nguyen dang khoa hoc vien cong nghe buu chinh vien thong
+                    {
+                        listFilter.map(item => (
+                            <FilterButton
+                                key={Math.random()}
+                                active={true}
+                                styles={getImageReviewStyle(imageSrc, item.brightness, item.contrast, item.saturate, item.sepia, item.hueRotate, item.grayscale)}
+                                onClick={() => this.handleIFilterItemClick(item)}
+                            >
+                                {item.label}
+                            </FilterButton>
+                        ))
+                    }
                 </div>
             )
         }
     }
 
     render() {
-        const { imageSrc, selectedTab, styles: { brightness, contrast, saturation }} = this.state
+        const { imageSrc, selectedTab, styles: { brightness, contrast, saturation, hueRotate, grayScale, sepia } } = this.state
         return (
             <div>
                 <div className="NewPostBoard__root">
@@ -142,19 +198,21 @@ class EditImageContainer extends Component {
                             <div className="NewPostBoard__dropzone-row">
                                 <div>
                                     <button
-                                        onClick={this.props.dispatchPrevStepCreatePost}
-                                        className="NewPostBoard__back-button"><i className="fa fa-arrow-left" /> Back</button>
+                                        onClick={this.handlePrevStepCreatePost}
+                                        className="NewPostBoard__back-button"
+                                    >
+                                        <i className="fa fa-arrow-left" />
+                                        Back
+                                        </button>
                                 </div>
                                 <div className="NewPostBoard__dropzone-wrapper">
                                     <div className="NewPostBoard__edit-preview">
                                         <figure
                                             className="NewPostBoard__preview-filter"
-                                        // className={`NewPostBoard__preview-filter ${this.state.filter}`}
-                                        // style={getFilterStyle(this.state.filterStyle)}
                                         >
                                             <div
                                                 className="NewPostBoard__preview-img"
-                                                style={getImagePreview(imageSrc, brightness, contrast, saturation)}
+                                                style={getImageReviewStyle(imageSrc, brightness, contrast, saturation, sepia, hueRotate, grayScale)}
                                             >
                                             </div>
                                         </figure>
@@ -162,7 +220,7 @@ class EditImageContainer extends Component {
                                 </div>
                                 <div>
                                     <button
-                                        onClick={this.props.dispatchNextStepCreatePost}
+                                        onClick={this.handleNextStepCreatePost}
                                         className="NewPostBoard__next-button"
                                     >
                                         Next <i className="fa fa-arrow-right" />
@@ -184,6 +242,7 @@ class EditImageContainer extends Component {
                                 >
                                     Edit
                                 </TabButton>
+                            
                             </div>
                             {/* {this.renderTabPanel()} */}
                             {this.renderTabPanel()}
@@ -198,6 +257,8 @@ class EditImageContainer extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         imageFile: getImageFileSelector(state),
+        styles: getStylesSelector(state),
+        imageSrc: getImageSrcSelector(state),
     }
 }
 
@@ -205,6 +266,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         dispatchNextStepCreatePost: () => dispatch(nextStepCreatePost()),
         dispatchPrevStepCreatePost: () => dispatch(prevStepCreateposts()),
+        dispatchEditImage: (imageData) => dispatch(editImage(imageData)),
+        dispatchResetEditImage: () => dispatch(resetEditImage()),
     }
 }
 

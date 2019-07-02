@@ -1,0 +1,147 @@
+.aden {
+	position: relative;
+	-webkit-filter: hue-rotate(-20deg) contrast(.9) saturate(.85) brightness(1.2);
+	filter: hue-rotate(-20deg) contrast(.9) saturate(.85) brightness(1.2)
+}
+
+
+.inkwell {
+	position: relative;
+	-webkit-filter: sepia(.3) contrast(1.1) brightness(1.1) grayscale(1);
+	filter: sepia(.3) contrast(1.1) brightness(1.1) grayscale(1)
+}
+.reyes {
+	position: relative;
+	-webkit-filter: sepia(.22) brightness(1.1) contrast(.85) saturate(.75);
+	filter: sepia(.22) brightness(1.1) contrast(.85) saturate(.75)
+}
+.gingham {
+	position: relative;
+	-webkit-filter: brightness(1.05) hue-rotate(-10deg);
+	filter: brightness(1.05) hue-rotate(-10deg)
+}
+
+.toaster {
+	position: relative;
+	-webkit-filter: contrast(1.5) brightness(.9);
+	filter: contrast(1.5) brightness(.9)
+}
+
+
+.walden {
+	position: relative;
+	-webkit-filter: brightness(1.1) hue-rotate(-10deg) sepia(.3) saturate(1.6);
+	filter: brightness(1.1) hue-rotate(-10deg) sepia(.3) saturate(1.6)
+}
+
+.hudson {
+	position: relative;
+	-webkit-filter: brightness(1.2) contrast(.9) saturate(1.1);
+	filter: brightness(1.2) contrast(.9) saturate(1.1)
+}
+
+.earlybird {
+	position: relative;
+	-webkit-filter: contrast(.9) sepia(.2);
+	filter: contrast(.9) sepia(.2)
+}
+
+.mayfair {
+	position: relative;
+	-webkit-filter: contrast(1.1) saturate(1.1);
+	filter: contrast(1.1) saturate(1.1)
+}
+
+.lofi {
+	position: relative;
+	-webkit-filter: saturate(1.1) contrast(1.5);
+	filter: saturate(1.1) contrast(1.5)
+}
+
+._1977 {
+	position: relative;
+	-webkit-filter: contrast(1.1) brightness(1.1) saturate(1.3);
+	filter: contrast(1.1) brightness(1.1) saturate(1.3)
+}
+
+
+.brooklyn {
+	position: relative;
+	-webkit-filter: contrast(.9) brightness(1.1);
+	filter: contrast(.9) brightness(1.1)
+}
+
+.xpro2 {
+	position: relative;
+	-webkit-filter: sepia(.3);
+	filter: sepia(.3)
+}
+
+.nashville {
+	position: relative;
+	-webkit-filter: sepia(.2) contrast(1.2) brightness(1.05) saturate(1.2);
+	filter: sepia(.2) contrast(1.2) brightness(1.05) saturate(1.2)
+}
+
+.lark {
+	position: relative;
+	-webkit-filter: contrast(.9);
+	filter: contrast(.9)
+}
+
+
+.moon {
+	position: relative;
+	-webkit-filter: grayscale(1) contrast(1.1) brightness(1.1);
+	filter: grayscale(1) contrast(1.1) brightness(1.1)
+}
+.clarendon {
+	position: relative;
+	-webkit-filter: contrast(1.2) saturate(1.35);
+	filter: contrast(1.2) saturate(1.35)
+}
+
+.willow {
+	position: relative;
+	-webkit-filter: grayscale(.5) contrast(.95) brightness(.9);
+	filter: grayscale(.5) contrast(.95) brightness(.9)
+}
+
+.rise {
+	position: relative;
+	-webkit-filter: brightness(1.05) sepia(.2) contrast(.9) saturate(.9);
+	filter: brightness(1.05) sepia(.2) contrast(.9) saturate(.9)
+}
+
+
+
+.slumber {
+	position: relative;
+	-webkit-filter: saturate(.66) brightness(1.05);
+	filter: saturate(.66) brightness(1.05)
+}
+
+
+.brannan {
+	position: relative;
+	-webkit-filter: sepia(.5) contrast(1.4);
+	filter: sepia(.5) contrast(1.4)
+}
+
+.valencia {
+	position: relative;
+	-webkit-filter: contrast(1.08) brightness(1.08) sepia(.08);
+	filter: contrast(1.08) brightness(1.08) sepia(.08)
+}
+.maven {
+	position: relative;
+	-webkit-filter: sepia(.25) brightness(.95) contrast(.95) saturate(1.5);
+	filter: sepia(.25) brightness(.95) contrast(.95) saturate(1.5)
+}
+
+
+.stinson {
+	position: relative;
+	-webkit-filter: contrast(.75) saturate(.85) brightness(1.15);
+	filter: contrast(.75) saturate(.85) brightness(1.15)
+}

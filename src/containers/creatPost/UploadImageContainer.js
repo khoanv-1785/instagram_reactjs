@@ -18,7 +18,6 @@ class UploadImageContainer  extends Component {
         return (
             <React.Fragment>
                 <PictureDropzone onDrop={this.onDrop} />
-                <button onClick={this.props.dispatchNextStepCreatePost}>Next</button>
             </React.Fragment>
         )
     }

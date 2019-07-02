@@ -38,7 +38,6 @@ const customStyles = {
 class index extends Component {
     constructor(props) {
         super(props)
-    
         this.state = {
              isOpenModal: false
         }

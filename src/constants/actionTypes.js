@@ -75,4 +75,9 @@ export const UPLOAD_POST_SUCCESS = 'UPLOAD_POST_SUCCESS'
 export const NEXT_STEP_CREATE_POST = 'NEXT_STEP_CREATE_POST'
 export const PREV_STEP_CREATE_POST = 'PREV_STEP_CREATE_POST'
 
+// drop image
 export const DROP_IMAGE = 'DROP_IMAGE'
+
+// luu trang thai hien tai cua file vao reducer truoc khi chuyen sang buoc tiep theo. 
+export const EDIT_IMAGE  = 'EDIT_IMAGE'
+export const RESET_EDIT_IMAGE = 'RESET_EDIT_IMAGE'
