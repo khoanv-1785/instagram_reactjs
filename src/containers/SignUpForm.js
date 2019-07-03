@@ -32,7 +32,6 @@ class SignUpForm extends React.Component {
 
     render() {
         const { handleSubmit, invalid, isSignUp, errors, isSuccess } = this.props
-        console.log(isSuccess)
         return (
             <form className="SignUpForm__root" onSubmit={handleSubmit((values) => this.props.dispatchSigUp(values))} >
                 <Field

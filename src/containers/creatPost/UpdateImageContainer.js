@@ -5,12 +5,47 @@ import imageDefault from '../../images/default-avatar.png'
 import {
     getImageSrcSelector,
     getStylesSelector,
+    getLocationSelector,
+    getCaptionSelector,
 } from '../../selector/createPostSelector'
-import { getFilterStyles } from '../../ultis/filter'
+import {
+    changeCaption,
+    changeLocation,
+} from '../../actions/createPostAction'
+import { getFilterStyles } from '../../ultis/filter'
 class UpdateImageContainer extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            isUploading: false,
+        }
+    }
+
+
+
+    onUploadPost = () => {
+        this.setState({
+            isUploading: true,
+        })
+        
+    }
+
+    onChangeText = event => {
+        const { name, value } = event.target 
+        if(name === 'location') {
+            this.props.dispatchChangeLocation(value)
+        } else {
+            this.props.dispatchChangeCaption(value)
+        }
+    }
+
     render() {
-        const { imageSrc, styles } = this.props
-        const {brightness, contrast, saturation, sepia, hueRotate, grayScale } = styles
+        const { imageSrc, styles, location, caption } = this.props
+        const { brightness, contrast, saturation, sepia, hueRotate, grayScale } = styles
+        const { isUploading } = this.state
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+        const { avatarUrl, username } = currentUser.attrs
         return (
             <div>
                 <div className="NewPostBoard__root">
@@ -26,10 +61,12 @@ class UpdateImageContainer extends Component {
                                 </div>
                                 <div>
                                     <button
-                                        // onClick={}
-                                        // disabled={this.props.isUploading}
+                                        onClick={this.onUploadPost}
+                                        disabled={isUploading}
                                         className="NewPostBoard__share-button">
-                                        <i className="fa fa-spinner fa-pulse fa-3x fa-fw NewPostBoard__spinner" />
+                                        {
+                                            isUploading ? <i className="fa fa-spinner fa-pulse fa-3x fa-fw NewPostBoard__spinner" /> : 'Share'
+                                        }
                                     </button>
                                 </div>
                             </div>
@@ -41,16 +78,17 @@ class UpdateImageContainer extends Component {
                                     <div className="NewPostBoard__preview-card-header">
                                         <div className="NewPostBoard__preview-card-avatar-container">
                                             <img
-                                                src={imageDefault}
+                                                src={avatarUrl ? avatarUrl : imageDefault}
                                                 className="NewPostBoard__preview-card-avatar-img"
                                                 alt=""
                                             />
                                         </div>
                                         <div className="GalleryItem-header__metadata-container">
                                             <div className="GalleryItem-header__username">
-                                                <span>username</span>
+                                                <span>{username}</span>
                                             </div>
-                                            {/* cho hien thi addrees */}
+                                            {/* cho hien thi addrees ngay duoi username */}
+                                            <div><span>{location.trim()}</span></div>
                                             {/* {this.state.address.trim().length > 0
                                                 ? (<div><span>{this.state.address}</span></div>)
                                                 : null} */}
@@ -60,20 +98,42 @@ class UpdateImageContainer extends Component {
                                         <div
                                             className="GalleryItem__body"
                                             style={getFilterStyles(brightness, contrast, saturation, sepia, hueRotate, grayScale)}
-                                            >
+                                        >
                                             <img src={imageSrc} role="presentation" alt="" />
                                         </div>
                                     </div>
-                                    {/* {this.state.caption.trim().length > 0
-                                        ? (
+                                    {/* hien thi caption ngay duoi hinh anh */}
+                                    {
+                                        caption.trim().length > 0 ? (
                                             <div className="NewPostBoard__preview-card-footer">
-                                                <strong>username</strong> this.state.caption
+                                                <strong>{username} : </strong>{caption.trim()}
                                             </div>
-                                        ) : null} */}
+                                        ) : null
+                                    }
                                 </div>
                             </div>
                             <div className="six columns NewPostBoard__caption-location-container">
-                                this.renderCaptionField()
+                                <div>
+                                    <label>Location</label>
+                                    <input
+                                        type="text"
+                                        value={location}
+                                        onChange={this.onChangeText}
+                                        name="location"
+                                        className="NewPostBoard__address-input NewPostBoard__place-autocomplete-container"
+                                    />
+                                    <div>
+                                        <label>Caption </label>
+                                        <textarea
+                                            value={caption}
+                                            name="caption"
+                                            onChange={this.onChangeText}
+                                            placeholder="Caption(optional)"
+                                            className="NewPostBoard__caption-box"
+                                            style={{ resize: 'none' }}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -87,12 +147,16 @@ const mapStateToProps = (state, ownProps) => {
     return {
         imageSrc: getImageSrcSelector(state),
         styles: getStylesSelector(state),
+        location: getLocationSelector(state),
+        caption: getCaptionSelector(state),
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         dispatchPrevStepCreatePost: () => dispatch(prevStepCreateposts()),
+        dispatchChangeLocation: (location) => dispatch(changeLocation(location)),
+        dispatchChangeCaption: (caption) => dispatch(changeCaption(caption)),
     }
 }
 

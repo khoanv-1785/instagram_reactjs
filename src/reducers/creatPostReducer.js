@@ -4,6 +4,8 @@ import {
     DROP_IMAGE,
     EDIT_IMAGE,
     RESET_EDIT_IMAGE,
+    CHANGE_CAPTION,
+    CHANGE_LOCATION,
 } from '../constants/actionTypes'
 
 const initialState = {
@@ -12,6 +14,8 @@ const initialState = {
     formData: [], // chua 1 mang thong tin ve bai post.,
     imageSrc: '', // duong dan file anh 
     styles: {},
+    location: '',
+    caption: '',
 }
 
 const createPostReducer = (state = initialState, action) => {
@@ -42,6 +46,18 @@ const createPostReducer = (state = initialState, action) => {
                 ...state,
                 imageSrc: '',
                 styles: {},
+                location: '',
+                caption: '',
+            }
+        case CHANGE_CAPTION: 
+            return {
+                ...state,
+                caption: action.caption,
+            }
+        case CHANGE_LOCATION:
+            return {
+                ...state,
+                location: action.location,
             }
         default:
             return state

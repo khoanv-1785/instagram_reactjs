@@ -16,7 +16,7 @@ function* workSignUpSaga(action) {
             const { authenticationToken } = result.data.user
             localStorage.setItem('authenticationToken', authenticationToken)
             localStorage.setItem('currentUser', JSON.stringify(result.data.user))
-            yield put(signUpSuccess(authenticationToken))
+            yield put(signUpSuccess(authenticationToken, result.data.user))
         } else {
             // handle error of axios
             const errors = result.response.data.errors

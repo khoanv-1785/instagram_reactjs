@@ -12,7 +12,6 @@ import {
     LIKE_POST_SUCCESS,
     DISLIKE_POST,
     DISLIKE_POST_SUCCESS,
-    UPLOAD_POST,
 } from '../constants/actionTypes'
 
 export const fetchPosts = (pageNumber) => {
@@ -116,14 +115,14 @@ export const dislikePostSuccess = postId => {
     }
 }
 
-// upload post 
-export const uploadPost = file => {
-    let formData = new FormData()
-    formData.append('photo', file)
-    console.log(formData)
-    console.log(file)
-    return {
-        type: UPLOAD_POST,
-        formData,
-    }
-}
+// // upload post 
+// export const uploadPost = file => {
+//     let formData = new FormData()
+//     formData.append('photo', file)
+//     console.log(formData)
+//     console.log(file)
+//     return {
+//         type: UPLOAD_POST,
+//         formData,
+//     }
+// }

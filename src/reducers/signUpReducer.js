@@ -9,6 +9,7 @@ const initialState = {
     token: '',
     errors: [],
     isSuccess: false,
+    currentUser: {},
 }
 const signUpReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -25,6 +26,7 @@ const signUpReducer = (state = initialState, action) => {
                 token: action.token,
                 errors: [],
                 isSuccess: true,
+                currentUser: action.currentUser,
             }
         case SIGN_UP_ERROR:
             return {

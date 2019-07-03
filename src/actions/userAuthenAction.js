@@ -35,10 +35,11 @@ export const signUp = user => {
     }
 }
 
-export const signUpSuccess = token => {
+export const signUpSuccess = (token, currentUser) => {
     return {
         type: SIGN_UP_SUCCESS,
         token,
+        currentUser,
     }
 }
 

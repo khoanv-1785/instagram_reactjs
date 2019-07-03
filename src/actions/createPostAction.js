@@ -4,6 +4,10 @@ import {
     DROP_IMAGE,
     EDIT_IMAGE,
     RESET_EDIT_IMAGE,
+    CHANGE_CAPTION,
+    CHANGE_LOCATION,
+    UPLOAD_POST,
+    UPLOAD_POST_SUCCESS,
 } from '../constants/actionTypes'
 
 export const nextStepCreatePost = () => {
@@ -37,5 +41,23 @@ export const editImage = imageData  => {
 export const resetEditImage = () => {
     return {
         type: RESET_EDIT_IMAGE,
+    }
+}
+
+export const changeLocation = location => {
+    return {
+        type: CHANGE_LOCATION,
+        location,
+    }
+}
+
+export const changeCaption = caption => {
+    return {
+        type: CHANGE_CAPTION,
+        caption,
+    }
+}
+export const uploadPost = post => {
+    return {
     }
 }

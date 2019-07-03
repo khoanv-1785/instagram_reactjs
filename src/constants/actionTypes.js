@@ -81,3 +81,5 @@ export const DROP_IMAGE = 'DROP_IMAGE'
 // luu trang thai hien tai cua file vao reducer truoc khi chuyen sang buoc tiep theo. 
 export const EDIT_IMAGE  = 'EDIT_IMAGE'
 export const RESET_EDIT_IMAGE = 'RESET_EDIT_IMAGE'
+export const CHANGE_LOCATION = 'CHANGE_LOCATION'
+export const CHANGE_CAPTION = 'CHANGE_CAPTION'
