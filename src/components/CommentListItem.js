@@ -40,7 +40,7 @@ export default class CommentListItem extends Component {
         return (
             <div className="CommentItem__root">
                 <strong><Link to={`/${username}`} className="CommentItem__username"> {username} </Link></strong>
-                {body}
+                <p className="comment-content">{body}</p>
                 {/* button delete comment */}
                 {
                     username === usernameCurrentUser ?
