@@ -59,7 +59,6 @@ export default class CommentListItem extends Component {
                     onRequestClose={this.handleCloseConfirmModal}
                     onClickConfirm={() => this.handleDeleteComment(id)}
                     confirmMessage="Delete comment"
-
                     cancelMessage="cancel"
                 />
             </div>
